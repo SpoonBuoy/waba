@@ -1,0 +1,125 @@
+// messages api
+
+// when user sends the message via whatsapp
+{
+    "entry": [
+        {
+            "changes": [
+                {
+                    "field": "messages",
+                    "value": {
+                        "metadata": {
+                            "display_phone_number": "15556094795",
+                            "phone_number_id": "360682553786428"
+                        },
+                        "messages": [
+                            {
+                                "from": "917051016552",
+                                "id": "wamid.HBgMOTE3MDUxMDE2NTUyFQIAEhggMDQ4Qzk4MjU4OEFBMjA1MEQ0QkFGRTI3RjU5OUE1QzAA",
+                                "text": {
+                                    "body": "Yo"
+                                },
+                                "timestamp": "1717868048",
+                                "type": "text"
+                            }
+                        ],
+                        "messaging_product": "whatsapp"
+                    }
+                }
+            ],
+            "id": "362986070222662"
+        }
+    ],
+    "object": "whatsapp_business_account"
+}
+
+// when system sends the message via api
+{
+    "entry": [
+        {
+            "changes": [
+                {
+                    "field": "messages",
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15556094795",
+                            "phone_number_id": "360682553786428"
+                        },
+                        "messages": [
+                            {
+                                "from": "917051016552",
+                                "id": "wamid.HBgMOTE3MDUxMDE2NTUyFQIAEhggMDQ4Qzk4MjU4OEFBMjA1MEQ0QkFGRTI3RjU5OUE1QzAA",
+                                "text": {
+                                    "body": "Yo"
+                                },
+                                "timestamp": "1717868048",
+                                "type": "text"
+                            }
+                        ],
+                        "statuses": [
+                            {
+                                "conversation": {
+                                    "id": "540c66752096626a1d316780492d4afc",
+                                    "origin": {
+                                        "type": "utility"
+                                    }
+                                },
+                                "id": "wamid.HBgMOTE3MDUxMDE2NTUyFQIAERgSNTg1RDMyQjg2QzIzNDlEMUFEAA==",
+                                "pricing": {
+                                    "billable": true,
+                                    "category": "utility",
+                                    "pricing_model": "CBP"
+                                },
+                                "recipient_id": "917051016552",
+                                "status": "delivered",
+                                "timestamp": "1717868245"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "id": "362986070222662"
+        }
+    ],
+    "object": "whatsapp_business_account"
+},
+{
+    "entry": [
+        {
+            "changes": [
+                {
+                    "field": "messages",
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15556094795",
+                            "phone_number_id": "360682553786428"
+                        },
+                        "statuses": [
+                            {
+                                "conversation": {
+                                    "id": "540c66752096626a1d316780492d4afc",
+                                    "origin": {
+                                        "type": "utility"
+                                    }
+                                },
+                                "id": "wamid.HBgMOTE3MDUxMDE2NTUyFQIAERgSNTg1RDMyQjg2QzIzNDlEMUFEAA==",
+                                "pricing": {
+                                    "billable": true,
+                                    "category": "utility",
+                                    "pricing_model": "CBP"
+                                },
+                                "recipient_id": "917051016552",
+                                "status": "read",
+                                "timestamp": "1717868246"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "id": "362986070222662"
+        }
+    ],
+    "object": "whatsapp_business_account"
+}

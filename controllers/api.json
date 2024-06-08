@@ -1,0 +1,18 @@
+// send message payload
+
+curl --location 'https://graph.facebook.com/v20.0/360682553786428/messages' \
+--header 'Authorization: Bearer EAAnrp3AqNGwBOz2ltZCOaeWBQ5OdDm04TH1mnIibbH8aZC0AoZBVB0g1BuLNwq96DsCfe5Ub9KWvKPGUkZAmvO8REmPVUAbKfcyNMTuhN4Jq9sLfwd29SuZBRH5ZBhMa8KfDnZAMRgxbg4wCYuJOYjrB435nL64YHIt3KuGc1LhqlZAu2AN3HXjNRPrCys581QgbA6YZCLZA4cko8tXA8giZAAZD' \
+--header 'Content-Type: application/json' \
+--data '
+    {
+      "messaging_product": "whatsapp",
+      "recipient_type": "individual",
+      "to": "917051016552",
+      "type": "text",
+      "text": { 
+        "preview_url": false,
+        "body": "hi, there this is something"
+        }
+    }'
+    
+// https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages
