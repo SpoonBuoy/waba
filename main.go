@@ -19,6 +19,6 @@ func main() {
 		})
 	})
 	r.GET("/verify", chatController.Verify)
-	r.POST("/verify", chatController.Verify)
+	r.POST("/verify", chatController.Listen)
 	r.Run(":9000")
 }
