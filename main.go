@@ -18,7 +18,7 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.GET("/hook/verify", chatController.Verify)
-	r.POST("hook/verify", chatController.Verify)
+	r.GET("/verify", chatController.Verify)
+	r.POST("/verify", chatController.Verify)
 	r.Run(":9000")
 }
