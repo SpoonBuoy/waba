@@ -6,12 +6,12 @@ import (
 
 type Business struct {
 	gorm.Model
-	Name                     string               `gorm:"size:255"`
-	Email                    string               `gorm:"size:255;unique"`
-	Password                 string               `gorm:"size:255"`
-	PhoneNumber              string               `gorm:"size:12;unique"`
-	VerificationDocumentType string               `gorm:"type:text"`
-	VerificationDocument     string               `gorm:"type:text"`
+	Name                     string
+	Email                    string `gorm:"unique"`
+	Password                 string
+	PhoneNumber              string `gorm:"unique"`
+	VerificationDocumentType string
+	VerificationDocument     string
 	Contexts                 []Context            `gorm:"constraint:OnDelete:CASCADE"`
 	WhatsappCreds            []WhatsappCredential `gorm:"constraint:OnDelete:CASCADE"`
 	ExcludedMappings         []ExcludedMapping    `gorm:"constraint:OnDelete:CASCADE"`
@@ -19,16 +19,16 @@ type Business struct {
 
 type Context struct {
 	gorm.Model
-	BusinessID uint   `gorm:"index"`
-	Content    string `gorm:"type:text"`
-	IsActive   bool   `gorm:"default:false"`
+	BusinessID uint
+	Content    string
+	IsActive   bool `gorm:"default:false"`
 }
 
 type WhatsappCredential struct {
 	gorm.Model
-	BotToken       string `gorm:"size:255"`
-	BusinessID     uint   `gorm:"index"`
-	WhatsappNumber string `gorm:"size:12"`
+	BotToken       string
+	BusinessID     uint
+	WhatsappNumber string
 	WabaID         string
 }
 

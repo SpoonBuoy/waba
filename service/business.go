@@ -25,3 +25,6 @@ func (bs *BusinessService) GetExcludedNos(id uint) {
 func (bs *BusinessService) SetExcludedNos() {
 	//sets excluded nos
 }
+func (bs *BusinessService) GetWabaId() {
+	//get waba id
+}
