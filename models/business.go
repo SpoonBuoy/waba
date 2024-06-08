@@ -12,9 +12,9 @@ type Business struct {
 	PhoneNumber              string `gorm:"unique"`
 	VerificationDocumentType string
 	VerificationDocument     string
-	Contexts                 []Context            `gorm:"constraint:OnDelete:CASCADE"`
-	WhatsappCreds            []WhatsappCredential `gorm:"constraint:OnDelete:CASCADE"`
-	ExcludedMappings         []ExcludedMapping    `gorm:"constraint:OnDelete:CASCADE"`
+	Contexts                 []Context          `gorm:"constraint:OnDelete:CASCADE"`
+	WhatsappCreds            WhatsappCredential `gorm:"constraint:OnDelete:CASCADE"`
+	ExcludedMappings         []ExcludedMapping  `gorm:"constraint:OnDelete:CASCADE"`
 }
 
 type Context struct {
@@ -34,6 +34,6 @@ type WhatsappCredential struct {
 
 type ExcludedMapping struct {
 	gorm.Model
-	BusinessID  uint   `gorm:"index"`
-	PhoneNumber string `gorm:"size:12"`
+	BusinessID  uint
+	PhoneNumber string
 }

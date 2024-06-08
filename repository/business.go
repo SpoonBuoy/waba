@@ -59,3 +59,13 @@ func (br *BusinessRepo) AddWabaCreds(cred models.WhatsappCredential) uint {
 	}
 	return cred.ID
 }
+
+func (br *BusinessRepo) GetActiveContext(bid uint) models.Context {
+	var ctx models.Context
+	err := br.db.Client.Where("BusinessID = ? AND isActive = ?", bid, true).First(&ctx).Error
+
+	if err != nil {
+		//handle err
+	}
+	return ctx
+}
