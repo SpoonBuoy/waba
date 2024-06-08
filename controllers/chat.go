@@ -39,7 +39,7 @@ func (wbc *ChatController) Verify(c *gin.Context) {
 // webhook listening new message events
 func (wbc *ChatController) Listen(c *gin.Context) {
 	var body models.WAMessagePayload
-	if err := c.BindJSON(&body); err != nil {
+	if err := c.ShouldBind(&body); err != nil {
 		c.Error(err)
 		return
 	}
