@@ -1,7 +1,14 @@
 package main
 
 import (
+	"github.com/SpoonBuoy/waba/controllers"
+	"github.com/SpoonBuoy/waba/service"
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	wabaService    = service.NewWabaService()
+	chatController = controllers.NewChatController(wabaService)
 )
 
 func main() {
@@ -11,6 +18,7 @@ func main() {
 			"message": "pong",
 		})
 	})
-
-	r.Run()
+	r.GET("/hook/verify", chatController.Verify)
+	r.POST("hook/verify", chatController.Verify)
+	r.Run(":9000")
 }
