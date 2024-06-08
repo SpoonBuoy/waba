@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/SpoonBuoy/waba/models"
@@ -42,6 +43,7 @@ func (wbc *ChatController) Listen(c *gin.Context) {
 		c.Error(err)
 		return
 	}
+	fmt.Println(body)
 
 	if len(body.Entry) > 0 && len(body.Entry[0].Changes) > 0 && len(body.Entry[0].Changes[0].Value.Messages) > 0 && body.Entry[0].Changes[0].Field == "messages" {
 		if err := wbc.service.Listen(c, &body); err != nil {
