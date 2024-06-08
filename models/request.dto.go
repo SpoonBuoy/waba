@@ -45,12 +45,15 @@ type WAMessage struct {
 	From      string      `json:"from"`
 	ID        string      `json:"id"`
 	Timestamp string      `json:"timestamp"`
-	Text      string      `json:"text"`
+	Text      Text        `json:"text"`
 	Type      MessageType `json:"type"` // only can be - button, document, text
 	Document  *Document   `json:"document"`
 	Button    *Button     `json:"button"`
 }
 
+type Text struct {
+	Body string `json:"body"`
+}
 type Document struct {
 	Filename         string `json:"filename"`
 	MimeType         string `json:"mime_type"`

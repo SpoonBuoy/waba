@@ -47,6 +47,7 @@ func (wbs *WabaService) Send(req *http.Request) {
 	res, err := client.Do(req)
 	if err != nil {
 		//handle err
+		print(err.Error())
 	}
 
 	fmt.Println(res.Body)
