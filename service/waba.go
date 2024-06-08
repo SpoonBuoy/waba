@@ -34,7 +34,7 @@ func (wbs *WabaService) Listen(c *gin.Context, payload *models.WAMessagePayload)
 	//prepare whatsapp response as http req with llm res
 	fmt.Println("in service layer")
 	fmt.Println(payload)
-	req := wbs.GetTemplateReq(token, payload.Entry[0].Changes[0].Value.Messages[0].From, payload.Entry[0].Changes[0].Value.Metadata.PhoneNumberID, payload.Entry[0].Changes[0].Value.Messages[0].Text)
+	req := wbs.GetTemplateReq(token, payload.Entry[0].Changes[0].Value.Messages[0].From, payload.Entry[0].Changes[0].Value.Metadata.PhoneNumberID, "Hello from aws")
 
 	//make http request to whatsapp
 	wbs.Send(req)
