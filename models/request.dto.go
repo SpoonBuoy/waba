@@ -44,7 +44,7 @@ type Contact struct {
 type WAMessage struct {
 	From      string      `json:"from"`
 	ID        string      `json:"id"`
-	Timestamp int64       `json:"timestamp"`
+	Timestamp string      `json:"timestamp"`
 	Text      string      `json:"text"`
 	Type      MessageType `json:"type"` // only can be - button, document, text
 	Document  *Document   `json:"document"`
