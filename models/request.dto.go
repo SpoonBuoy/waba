@@ -65,3 +65,6 @@ type Button struct {
 	Payload *string `json:"payload"`
 	URL     *string `json:"url"`
 }
+
+type WabaRequest struct {
+}

@@ -11,24 +11,27 @@ import (
 
 type WabaService struct {
 	business BusinessService
+	llm      LlmService
 }
 
 func NewWabaService() *WabaService {
 	return &WabaService{}
 }
 
-func (wbs *WabaService) Listen(msg models.WabaMessageReq) {
+func (wbs *WabaService) Listen(msg models.WabaRequest) {
 	//listens for incoming messages
-	sender := msg.From
-	recipient := msg.To
-	query := msg.Message
+	//get sender, reciepient, message
 
 	//need to fetch the active context of the recipient
 	ctx := wbs.business.GetActiveContext()
-}
-func (wbs *WabaService) Send() {
-	//sends back the response to the message
 
+	//get response from llm
+	res = wbs.llm.GetResponse()
+
+	//prepare whatsapp respnse with llm res
+	ans = wbs.GetTemplate()
+
+	//return ans
 }
 
 func (wbs *WabaService) GetTemplate(token string, to string, from string, msg string) {
