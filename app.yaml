@@ -5,3 +5,4 @@ db:
   user: admin
   password: root@123
   name: waba 
+  auto_migrate: false

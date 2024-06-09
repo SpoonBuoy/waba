@@ -17,8 +17,11 @@ type WabaService struct {
 	llm      LlmService
 }
 
-func NewWabaService() *WabaService {
-	return &WabaService{}
+func NewWabaService(businessSrv BusinessService, llmSrv LlmService) *WabaService {
+	return &WabaService{
+		business: businessSrv,
+		llm:      llmSrv,
+	}
 }
 
 func (wbs *WabaService) Listen(c *gin.Context, payload *dto.WAMessagePayload) error {

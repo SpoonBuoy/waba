@@ -11,8 +11,10 @@ type BusinessRepo struct {
 	db db.Db
 }
 
-func NewBusinessRepo() *BusinessRepo {
-	return &BusinessRepo{}
+func NewBusinessRepo(gdb db.Db) *BusinessRepo {
+	return &BusinessRepo{
+		db: gdb,
+	}
 }
 
 func HanldeDbErr(err error, where string) {

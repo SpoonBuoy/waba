@@ -4,7 +4,7 @@ type LlmService struct {
 	BaseAddr string
 }
 
-func newLlmService() *LlmService {
+func NewLlmService() *LlmService {
 	return &LlmService{}
 }
 

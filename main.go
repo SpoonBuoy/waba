@@ -6,20 +6,26 @@ import (
 
 	"github.com/SpoonBuoy/waba/controllers"
 	"github.com/SpoonBuoy/waba/db"
+	"github.com/SpoonBuoy/waba/repository"
 	"github.com/SpoonBuoy/waba/service"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
 var (
-	wabaService    = service.NewWabaService()
+	dbUser      string
+	dbName      string
+	dbPass      string
+	dbPort      int
+	dbHost      string
+	Db          *db.Db
+	AutoMigrate bool
+
+	busRepo        = repository.NewBusinessRepo(*Db)
+	busServ        = service.NewBusinessService(*busRepo)
+	llmServ        = service.NewLlmService()
+	wabaService    = service.NewWabaService(*busServ, *llmServ)
 	chatController = controllers.NewChatController(wabaService)
-	dbUser         string
-	dbName         string
-	dbPass         string
-	dbPort         int
-	dbHost         string
-	Db             *db.Db
 )
 
 func ReadConfig() {
@@ -37,13 +43,16 @@ func ReadConfig() {
 	dbUser = viper.GetString("db.user")
 	dbName = viper.GetString("db.name")
 	dbPass = viper.GetString("db.password")
+	AutoMigrate = viper.GetBool("auto_migrate")
 	fmt.Printf("DB config with host %s and port %s", dbHost, dbPort)
 
 }
 func init() {
 	ReadConfig()
 	Db = db.NewDb(dbHost, uint(dbPort), dbName, dbUser, dbPass)
-	Db.Migrate()
+	if AutoMigrate {
+		Db.Migrate()
+	}
 }
 
 func main() {

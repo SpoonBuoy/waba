@@ -13,8 +13,10 @@ type BusinessController struct {
 	businessService service.BusinessService
 }
 
-func NewBusinessController() *BusinessController {
-	return &BusinessController{}
+func NewBusinessController(businessServ service.BusinessService) *BusinessController {
+	return &BusinessController{
+		businessService: businessServ,
+	}
 }
 
 func HandleBindErr(err error, where string, ctx *gin.Context) {

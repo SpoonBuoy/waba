@@ -12,12 +12,19 @@ type BusinessService struct {
 	businessRepo repository.BusinessRepo
 }
 
-func NewBusinessService() *BusinessService {
-	return &BusinessService{}
+func NewBusinessService(br repository.BusinessRepo) *BusinessService {
+	return &BusinessService{
+		businessRepo: br,
+	}
 }
 func (bs *BusinessService) CreateContext(c dto.CreateCtxReq) models.Context {
-	//fill this with dto
-	context := models.Context{}
+	//get business id from token
+	var bid uint
+	context := models.Context{
+		Content:    c.Content,
+		IsActive:   false,
+		BusinessID: bid,
+	}
 	cCreated := bs.businessRepo.AddContext(context)
 
 	return cCreated
@@ -31,8 +38,9 @@ func (bs *BusinessService) GetActiveContext(id uint) (*models.Context, error) {
 	return nil, fmt.Errorf("no active context found with id %d", id)
 }
 func (bs *BusinessService) SetActiveContext(c dto.SwitchActiveCtxReq) models.Context {
-	//get cid and bid from dto
-	res := bs.businessRepo.UseContext(1, 1)
+	//get bid from token
+	var bid uint
+	res := bs.businessRepo.UseContext(c.ContextId, bid)
 	return *res
 }
 func (bs *BusinessService) GetAllContexts(id uint) []models.Context {
@@ -51,7 +59,12 @@ func (bs *BusinessService) GetBusiness(id uint) (*models.Business, error) {
 }
 func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) models.Business {
 	//fill b with bus dto
-	b := models.Business{}
+	b := models.Business{
+		Name:        bus.Name,
+		Email:       bus.Email,
+		Password:    bus.Password,
+		PhoneNumber: bus.Phone,
+	}
 	//creates new business
 	bCreated := bs.businessRepo.AddBusiness(b)
 	return bCreated
