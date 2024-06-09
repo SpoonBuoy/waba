@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/SpoonBuoy/waba/models"
+	"github.com/SpoonBuoy/waba/dto"
 	"github.com/SpoonBuoy/waba/service"
 	"github.com/gin-gonic/gin"
 )
@@ -38,7 +38,7 @@ func (wbc *ChatController) Verify(c *gin.Context) {
 
 // webhook listening new message events
 func (wbc *ChatController) Listen(c *gin.Context) {
-	var body models.WAMessagePayload
+	var body dto.WAMessagePayload
 	if err := c.ShouldBind(&body); err != nil {
 		c.Error(err)
 		return

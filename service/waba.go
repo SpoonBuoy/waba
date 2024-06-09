@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/SpoonBuoy/waba/models"
+	"github.com/SpoonBuoy/waba/dto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,7 +21,7 @@ func NewWabaService() *WabaService {
 	return &WabaService{}
 }
 
-func (wbs *WabaService) Listen(c *gin.Context, payload *models.WAMessagePayload) error {
+func (wbs *WabaService) Listen(c *gin.Context, payload *dto.WAMessagePayload) error {
 	//listens for incoming messages
 	//get sender, reciepient, message
 

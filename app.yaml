@@ -1,0 +1,7 @@
+db:
+  # Connection details
+  host: 13.126.128.44
+  port: 5432
+  user: admin
+  password: root@123
+  name: waba 
