@@ -21,11 +21,12 @@ var (
 	Db          *db.Db
 	AutoMigrate bool
 
-	busRepo        = repository.NewBusinessRepo(*Db)
-	busServ        = service.NewBusinessService(*busRepo)
-	llmServ        = service.NewLlmService()
-	wabaService    = service.NewWabaService(*busServ, *llmServ)
-	chatController = controllers.NewChatController(wabaService)
+	busRepo        *repository.BusinessRepo
+	busServ        *service.BusinessService
+	llmServ        *service.LlmService
+	wabaService    *service.WabaService
+	chatController *controllers.ChatController
+	businessCtrl   *controllers.BusinessController
 )
 
 func ReadConfig() {
@@ -53,6 +54,12 @@ func init() {
 	if AutoMigrate {
 		Db.Migrate()
 	}
+	busRepo = repository.NewBusinessRepo(*Db)
+	busServ = service.NewBusinessService(*busRepo)
+	llmServ = service.NewLlmService()
+	wabaService = service.NewWabaService(*busServ, *llmServ)
+	chatController = controllers.NewChatController(wabaService)
+	businessCtrl = controllers.NewBusinessController(*busServ)
 }
 
 func main() {
@@ -63,6 +70,17 @@ func main() {
 		})
 	})
 	r.GET("/verify", chatController.Verify)
+
 	r.POST("/verify", chatController.Listen)
+	api := r.Group("/api")
+	{
+		business := api.Group("/business")
+
+		business.GET("/contexts", businessCtrl.GetContexts)
+		business.POST("/context", businessCtrl.AddContext)
+		business.POST("/context/set", businessCtrl.SetActiveCtx)
+		business.POST("/onboard", businessCtrl.AddBusiness)
+
+	}
 	r.Run(":9000")
 }
