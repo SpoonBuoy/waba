@@ -45,7 +45,7 @@ func ReadConfig() {
 	dbUser = viper.GetString("db.user")
 	dbName = viper.GetString("db.name")
 	dbPass = viper.GetString("db.password")
-	AutoMigrate = viper.GetBool("auto_migrate")
+	AutoMigrate = viper.GetBool("db.auto_migrate")
 	fmt.Printf("DB config with host %s and port %s", dbHost, dbPort)
 
 }
