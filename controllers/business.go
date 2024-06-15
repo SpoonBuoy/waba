@@ -51,8 +51,8 @@ func (bc *BusinessController) AddContext(ctx *gin.Context) {
 
 func (bc *BusinessController) GetContexts(ctx *gin.Context) {
 	//get business id from token
-	bid := ctx.GetInt("businessId")
-	cs := bc.businessService.GetAllContexts(uint(bid))
+	var bid uint = 1
+	cs := bc.businessService.GetAllContexts(bid)
 	ctx.JSON(http.StatusOK, gin.H{"data": cs})
 }
 
