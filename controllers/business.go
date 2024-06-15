@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -111,7 +112,7 @@ func (bc *BusinessController) CreateToken(bId uint, name string) (string, error)
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"sub": bId,
+			"sub": fmt.Sprint(bId),
 			"exp": exp,
 		},
 	)

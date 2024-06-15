@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -35,6 +37,10 @@ func (au *Auth) Verify(ctx *gin.Context) {
 		//failed to get business id from token
 		ctx.JSON(401, gin.H{"error": "data not found in token"})
 	}
-	ctx.Set("businessID", busId)
+	intbusId, err := strconv.Atoi(busId)
+	if err != nil {
+		ctx.JSON(401, "error converting to int")
+	}
+	ctx.Set("businessID", intbusId)
 	ctx.Next()
 }
