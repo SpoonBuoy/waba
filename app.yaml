@@ -9,3 +9,7 @@ db:
 
 jwt:
   secret: arsalan
+
+service:
+  llm:
+    chat_uri: llm.gasha.live/api/chat

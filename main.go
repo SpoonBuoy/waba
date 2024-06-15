@@ -31,6 +31,7 @@ var (
 	businessCtrl   *controllers.BusinessController
 	authMiddleware *middleware.Auth
 	jwtSecret      string
+	llmChatUri     string
 )
 
 func ReadConfig() {
@@ -49,6 +50,7 @@ func ReadConfig() {
 	dbName = viper.GetString("db.name")
 	dbPass = viper.GetString("db.password")
 	AutoMigrate = viper.GetBool("db.auto_migrate")
+	llmChatUri = viper.GetString("service.llm.chat_uri")
 	jwtSecret = viper.GetString("jwt.secret")
 	fmt.Printf("DB config with host %s and port %s", dbHost, dbPort)
 
@@ -61,7 +63,7 @@ func init() {
 	}
 	busRepo = repository.NewBusinessRepo(*Db)
 	busServ = service.NewBusinessService(*busRepo)
-	llmServ = service.NewLlmService()
+	llmServ = service.NewLlmService(llmChatUri)
 	wabaService = service.NewWabaService(*busServ, *llmServ)
 	chatController = controllers.NewChatController(wabaService)
 	businessCtrl = controllers.NewBusinessController(*busServ, jwtSecret)

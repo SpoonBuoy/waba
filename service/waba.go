@@ -24,20 +24,23 @@ func NewWabaService(businessSrv BusinessService, llmSrv LlmService) *WabaService
 	}
 }
 
-func (wbs *WabaService) Listen(c *gin.Context, payload *dto.WAMessagePayload) error {
+func (wbs *WabaService) Listen(ctx *gin.Context, payload *dto.WAMessagePayload, bid uint) error {
 	//listens for incoming messages
 	//get sender, reciepient, message
 
 	//need to fetch the active context of the recipient
-	// ctx := wbs.business.GetActiveContext()
-
+	activeContext, err := wbs.business.GetActiveContext(bid)
+	if err != nil {
+		ctx.JSON(400, gin.H{"error": "no active context found"})
+	}
+	usrMsg := payload.Entry[0].Changes[0].Value.Messages[0].Text.Body
 	//get response from llm
-	// res = wbs.llm.GetResponse()
+	res := wbs.llm.GetResponse(activeContext.Content, "details", usrMsg)
 
 	//prepare whatsapp response as http req with llm res
 	fmt.Println("in service layer")
 	fmt.Println(payload)
-	req := wbs.GetTemplateReq(token, payload.Entry[0].Changes[0].Value.Messages[0].From, payload.Entry[0].Changes[0].Value.Metadata.PhoneNumberID, "Hello from aws")
+	req := wbs.GetTemplateReq(token, payload.Entry[0].Changes[0].Value.Messages[0].From, payload.Entry[0].Changes[0].Value.Metadata.PhoneNumberID, res)
 
 	//make http request to whatsapp
 	wbs.Send(req)

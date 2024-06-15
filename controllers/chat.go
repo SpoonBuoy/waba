@@ -44,9 +44,10 @@ func (wbc *ChatController) Listen(c *gin.Context) {
 		return
 	}
 	fmt.Println(body)
-
+	//have to fetch it
+	var bid uint = 1
 	if len(body.Entry) > 0 && len(body.Entry[0].Changes) > 0 && len(body.Entry[0].Changes[0].Value.Messages) > 0 && body.Entry[0].Changes[0].Field == "messages" {
-		if err := wbc.service.Listen(c, &body); err != nil {
+		if err := wbc.service.Listen(c, &body, bid); err != nil {
 			c.Error(err)
 			return
 		}
