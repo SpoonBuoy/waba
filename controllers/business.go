@@ -83,7 +83,7 @@ func (bc *BusinessController) Login(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "failed to create token"})
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"token": token})
+	ctx.JSON(http.StatusOK, gin.H{"token": token, "business": business})
 }
 
 func (bc *BusinessController) Logout(ctx *gin.Context) {
