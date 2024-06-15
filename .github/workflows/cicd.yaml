@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Checkout Action Source
       uses: actions/checkout@v4
-    - name: Login to docker hub to push image
+    - name: Login to docker hub 
       run: docker login -u ${{ secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASS}}
     - name: Build Docker image
       run: docker build -t mouse69/waba .
@@ -20,6 +20,8 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+    - name: Login to docker hub 
+      run: docker login -u ${{ secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASS}}
     - name: Pull Docker Image from registry
       run: docker pull mouse69/waba:latest
     - name: Delete the container if already running
