@@ -71,7 +71,7 @@ func init() {
 func main() {
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*", "http://localhost", "http://localhost:3000"},
+		AllowOrigins:     []string{"*", "https://ai.gasha.live", "http://localhost", "http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"},  // Including more methods
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"}, // Including more headers
 		ExposeHeaders:    []string{"Content-Length"},
