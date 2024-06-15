@@ -16,16 +16,23 @@ jobs:
       run: docker build -t mouse69/waba .
     - name: Push image to docker hub
       run: docker push mouse69/waba:latest
-  deploy:
+  
+  clean:
     needs: build
+    runs-on: self-hosted
+    steps:
+    - name: Delete the container if already running
+      run: docker rm -f waba-backend
+
+  deploy:
+    needs: [build, clean]
     runs-on: self-hosted
     steps:
     - name: Login to docker hub 
       run: docker login -u ${{ secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASS}}
     - name: Pull Docker Image from registry
       run: docker pull mouse69/waba:latest
-    - name: Delete the container if already running
-      run: docker rm -f waba-backend
+    
     - name: Run docker container in ec2
       run: docker run -d -p 9000:9000 --name waba-backend mouse69/waba:latest
 
