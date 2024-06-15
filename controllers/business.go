@@ -36,8 +36,22 @@ func (bc *BusinessController) AddBusiness(ctx *gin.Context) {
 	err := ctx.BindJSON(&req)
 	HandleBindErr(err, "AddBusiness", ctx)
 
-	b := bc.businessService.CreateBusiness(req)
-	ctx.JSON(http.StatusOK, gin.H{"data": b})
+	b, err := bc.businessService.CreateBusiness(req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+	}
+
+	token, err := bc.CreateToken(b.ID, b.Name)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "failed to create token"})
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"Token": token, "Business": b})
+}
+
+func (bc *BusinessController) VerifyAuth(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"valid": true})
+
 }
 
 func (bc *BusinessController) AddContext(ctx *gin.Context) {
@@ -83,7 +97,7 @@ func (bc *BusinessController) Login(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "failed to create token"})
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"token": token, "business": business})
+	ctx.JSON(http.StatusOK, gin.H{"Token": token, "Business": business})
 }
 
 func (bc *BusinessController) Logout(ctx *gin.Context) {

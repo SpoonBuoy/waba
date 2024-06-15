@@ -94,6 +94,7 @@ func main() {
 		business := api.Group("/business")
 		business.Use(authMiddleware.Verify)
 
+		business.GET("/verify", businessCtrl.VerifyAuth)
 		business.GET("/contexts", businessCtrl.GetContexts)
 		business.POST("/context", businessCtrl.AddContext)
 		business.POST("/context/set", businessCtrl.SetActiveCtx)

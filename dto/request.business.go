@@ -1,10 +1,11 @@
 package dto
 
 type CreateBusinessReq struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Phone    string `json:"phone"`
+	Name                string `json:"businessName"`
+	BusinessPhoneNumber string `json:"waNumber"`
+	Email               string `json:"email"`
+	Password            string `json:"password"`
+	Phone               string `json:"phone"`
 }
 type CreateCtxReq struct {
 	Content string `json:"content"`
@@ -16,6 +17,6 @@ type AddWabaCredsReq struct {
 	WhatsappNumber string `json:"wa_number"`
 }
 type LoginReq struct {
-	Name     string `json:"name"`
+	Name     string `json:"username"`
 	Password string `json:"password"`
 }

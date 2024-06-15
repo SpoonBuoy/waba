@@ -15,12 +15,14 @@ func NewAuthMiddleware(secret string) *Auth {
 
 func (au *Auth) Verify(ctx *gin.Context) {
 	tokenStr := ctx.Request.Header.Get("Authorization")
+	tokenStr = tokenStr[len("Bearer "):] // remove "Bearer " prefix
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		return au.Secret, nil
 	})
 	if err != nil {
 		//not able to verify
-		ctx.JSON(401, gin.H{"error": "failed to parse token"})
+		ctx.JSON(401, gin.H{"error": "failed to parse token: " + err.Error()})
+		return
 	}
 	if !token.Valid {
 		//token not valid

@@ -55,7 +55,7 @@ func (bs *BusinessService) GetBusiness(id uint) (*models.Business, error) {
 	}
 	return nil, fmt.Errorf("no business found with id %d", id)
 }
-func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) models.Business {
+func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) (*models.Business, error) {
 	//fill b with bus dto
 	b := models.Business{
 		Name:        bus.Name,
@@ -65,7 +65,15 @@ func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) models.Busi
 	}
 	//creates new business
 	bCreated := bs.businessRepo.AddBusiness(b)
-	return bCreated
+	if bCreated.ID < 0 {
+		return nil, fmt.Errorf("can't onboard the business")
+	}
+	// return bCreated
+	loginBusiness := bs.businessRepo.ValidateBusiness(bus.Name, bus.Password)
+	if loginBusiness.ID < 0 {
+		return nil, fmt.Errorf("can't onboard the business")
+	}
+	return &loginBusiness, nil
 }
 func (bs *BusinessService) ValidateBusiness(creds dto.LoginReq) (*models.Business, error) {
 	b := bs.businessRepo.ValidateBusiness(creds.Name, creds.Password)
