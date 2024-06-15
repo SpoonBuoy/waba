@@ -52,7 +52,7 @@ func (br *BusinessRepo) AddBusiness(bus models.Business) models.Business {
 }
 func (br *BusinessRepo) ValidateBusiness(name string, password string) models.Business {
 	var bus models.Business
-	err := br.db.Client.Where("name = ? AND password = ?", name, password).First(&bus).Error
+	err := br.db.Client.Where("email= ? AND password = ?", name, password).First(&bus).Error
 
 	HanldeDbErr(err, "AddBusiness")
 	return bus
