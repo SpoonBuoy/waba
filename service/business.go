@@ -19,7 +19,7 @@ func NewBusinessService(br repository.BusinessRepo) *BusinessService {
 }
 func (bs *BusinessService) CreateContext(c dto.CreateCtxReq, bid uint) models.Context {
 	//get business id from token
-	var bid uint = 1
+	bid = 1
 	context := models.Context{
 		Content:    c.Content,
 		IsActive:   false,
@@ -39,7 +39,7 @@ func (bs *BusinessService) GetActiveContext(id uint) (*models.Context, error) {
 }
 func (bs *BusinessService) SetActiveContext(c dto.SwitchActiveCtxReq, bid uint) models.Context {
 	//get bid from token
-	var bid uint = 1
+	bid = 1
 	res := bs.businessRepo.UseContext(c.ContextId, bid)
 	return *res
 }
