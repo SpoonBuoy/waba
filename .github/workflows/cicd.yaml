@@ -25,5 +25,5 @@ jobs:
     - name: Delete the container if already running
       run: docker rm -f waba-backend
     - name: Run docker container in ec2
-      run: docker run -d -p 9000:9000 --name waba-backend mouse69/waba
+      run: docker run -d -p 9000:9000 --name waba-backend mouse69/waba:latest
 
