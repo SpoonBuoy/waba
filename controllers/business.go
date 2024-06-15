@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/SpoonBuoy/waba/dto"
+	"github.com/SpoonBuoy/waba/middleware"
 	"github.com/SpoonBuoy/waba/service"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -59,15 +60,17 @@ func (bc *BusinessController) AddContext(ctx *gin.Context) {
 	var req dto.CreateCtxReq
 	err := ctx.BindJSON(&req)
 	HandleBindErr(err, "AddContext", ctx)
-	bid := ctx.GetInt("businessId")
-	c := bc.businessService.CreateContext(req, uint(bid))
+	bid := middleware.GetRequestKeys(ctx).BusinessId
+	// bid := ctx.Keys["businessId"]
+	c := bc.businessService.CreateContext(req, bid)
 	ctx.JSON(http.StatusOK, gin.H{"data": c})
 }
 
 func (bc *BusinessController) GetContexts(ctx *gin.Context) {
 	//get business id from token
-	var bid uint = 1
-	cs := bc.businessService.GetAllContexts(bid)
+	// bid := ctx.GetInt("businessId")
+	bid := middleware.GetRequestKeys(ctx).BusinessId
+	cs := bc.businessService.GetAllContexts(uint(bid))
 	ctx.JSON(http.StatusOK, gin.H{"data": cs})
 }
 
@@ -75,7 +78,8 @@ func (bc *BusinessController) SetActiveCtx(ctx *gin.Context) {
 	var req dto.SwitchActiveCtxReq
 	err := ctx.BindJSON(&req)
 	HandleBindErr(err, "SetActiveCtx", ctx)
-	bid := ctx.GetInt("businessId")
+	// bid := ctx.GetInt("businessId")
+	bid := middleware.GetRequestKeys(ctx).BusinessId
 	res := bc.businessService.SetActiveContext(req, uint(bid))
 	ctx.JSON(http.StatusOK, gin.H{"data": res})
 }
