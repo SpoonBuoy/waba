@@ -33,7 +33,7 @@ func (br *BusinessRepo) GetBusiness(id uint) *models.Business {
 
 func (br *BusinessRepo) GetAllContexts(bid uint) []models.Context {
 	var ctxs []models.Context
-	err := br.db.Client.Where("BusinessID = ?", bid).Find(&ctxs).Error
+	err := br.db.Client.Where("business_id = ?", bid).Find(&ctxs).Error
 	HanldeDbErr(err, "GetAllContexts")
 	return ctxs
 }
@@ -50,10 +50,16 @@ func (br *BusinessRepo) AddBusiness(bus models.Business) models.Business {
 	HanldeDbErr(err, "AddBusiness")
 	return bus
 }
+func (br *BusinessRepo) ValidateBusiness(name string, password string) models.Business {
+	var bus models.Business
+	err := br.db.Client.Where("name = ? AND password = ?", name, password).First(&bus).Error
 
+	HanldeDbErr(err, "AddBusiness")
+	return bus
+}
 func (br *BusinessRepo) GetWabaId(bid uint) string {
 	var cred models.WhatsappCredential
-	err := br.db.Client.Where("BusinessID = ?", bid).First(&cred).Error
+	err := br.db.Client.Where("business_id = ?", bid).First(&cred).Error
 
 	HanldeDbErr(err, "GetWabaID")
 	return cred.WabaID
@@ -68,14 +74,14 @@ func (br *BusinessRepo) AddWabaCreds(cred models.WhatsappCredential) uint {
 
 func (br *BusinessRepo) GetActiveContext(bid uint) *models.Context {
 	var ctx *models.Context = nil
-	err := br.db.Client.Where("BusinessID = ? AND isActive = ?", bid, true).First(&ctx).Error
+	err := br.db.Client.Where("business_id = ? AND is_active = ?", bid, true).First(&ctx).Error
 
 	HanldeDbErr(err, "GetActiveContext")
 	return ctx
 }
 func (br *BusinessRepo) GetContext(cid uint, bid uint) *models.Context {
 	var ctx *models.Context = nil
-	err := br.db.Client.Where("BusinessID = ? AND ID = ?", bid, cid).First(&ctx).Error
+	err := br.db.Client.Where("business_id = ? AND ID = ?", bid, cid).First(&ctx).Error
 
 	HanldeDbErr(err, "GetContext")
 	return ctx

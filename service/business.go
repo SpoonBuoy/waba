@@ -17,9 +17,8 @@ func NewBusinessService(br repository.BusinessRepo) *BusinessService {
 		businessRepo: br,
 	}
 }
-func (bs *BusinessService) CreateContext(c dto.CreateCtxReq) models.Context {
+func (bs *BusinessService) CreateContext(c dto.CreateCtxReq, bid uint) models.Context {
 	//get business id from token
-	var bid uint
 	context := models.Context{
 		Content:    c.Content,
 		IsActive:   false,
@@ -37,9 +36,8 @@ func (bs *BusinessService) GetActiveContext(id uint) (*models.Context, error) {
 	}
 	return nil, fmt.Errorf("no active context found with id %d", id)
 }
-func (bs *BusinessService) SetActiveContext(c dto.SwitchActiveCtxReq) models.Context {
+func (bs *BusinessService) SetActiveContext(c dto.SwitchActiveCtxReq, bid uint) models.Context {
 	//get bid from token
-	var bid uint
 	res := bs.businessRepo.UseContext(c.ContextId, bid)
 	return *res
 }
@@ -69,6 +67,14 @@ func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) models.Busi
 	bCreated := bs.businessRepo.AddBusiness(b)
 	return bCreated
 }
+func (bs *BusinessService) ValidateBusiness(creds dto.LoginReq) (*models.Business, error) {
+	b := bs.businessRepo.ValidateBusiness(creds.Name, creds.Password)
+	if b.ID < 0 {
+		return nil, fmt.Errorf("invalid credentials")
+	}
+	return &b, nil
+}
+
 func (bs *BusinessService) GetExcludedNos(id uint) {
 	//gets excluded nos
 }

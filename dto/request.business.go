@@ -15,3 +15,7 @@ type SwitchActiveCtxReq struct {
 type AddWabaCredsReq struct {
 	WhatsappNumber string `json:"wa_number"`
 }
+type LoginReq struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+}

@@ -6,6 +6,7 @@ import (
 
 	"github.com/SpoonBuoy/waba/controllers"
 	"github.com/SpoonBuoy/waba/db"
+	"github.com/SpoonBuoy/waba/middleware"
 	"github.com/SpoonBuoy/waba/repository"
 	"github.com/SpoonBuoy/waba/service"
 	"github.com/gin-contrib/cors"
@@ -28,6 +29,8 @@ var (
 	wabaService    *service.WabaService
 	chatController *controllers.ChatController
 	businessCtrl   *controllers.BusinessController
+	authMiddleware *middleware.Auth
+	jwtSecret      string
 )
 
 func ReadConfig() {
@@ -46,6 +49,7 @@ func ReadConfig() {
 	dbName = viper.GetString("db.name")
 	dbPass = viper.GetString("db.password")
 	AutoMigrate = viper.GetBool("db.auto_migrate")
+	jwtSecret = viper.GetString("jwt.secret")
 	fmt.Printf("DB config with host %s and port %s", dbHost, dbPort)
 
 }
@@ -60,7 +64,8 @@ func init() {
 	llmServ = service.NewLlmService()
 	wabaService = service.NewWabaService(*busServ, *llmServ)
 	chatController = controllers.NewChatController(wabaService)
-	businessCtrl = controllers.NewBusinessController(*busServ)
+	businessCtrl = controllers.NewBusinessController(*busServ, jwtSecret)
+	authMiddleware = middleware.NewAuthMiddleware(jwtSecret)
 }
 
 func main() {
@@ -77,17 +82,25 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.GET("/verify", chatController.Verify)
 
-	r.POST("/verify", chatController.Listen)
 	api := r.Group("/api")
 	{
+
+		account := api.Group("/account")
+
+		account.POST("/onboard", businessCtrl.AddBusiness)
+		account.POST("/login", businessCtrl.Login)
+
 		business := api.Group("/business")
+		business.Use(authMiddleware.Verify)
 
 		business.GET("/contexts", businessCtrl.GetContexts)
 		business.POST("/context", businessCtrl.AddContext)
 		business.POST("/context/set", businessCtrl.SetActiveCtx)
-		business.POST("/onboard", businessCtrl.AddBusiness)
+
+		waba := api.Group("/waba")
+		waba.GET("/event", chatController.Verify)
+		waba.POST("/event", chatController.Listen)
 
 	}
 	r.Run(":9000")
