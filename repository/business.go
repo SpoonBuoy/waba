@@ -72,6 +72,19 @@ func (br *BusinessRepo) AddWabaCreds(cred models.WhatsappCredential) uint {
 	return cred.ID
 }
 
+func (br *BusinessRepo) UpdateActiveContext(bid uint, ctxId uint, setActive bool) *models.Context {
+	var ctx *models.Context = nil
+	if ctxId > 0 {
+		err := br.db.Client.Model(&models.Context{}).Where("business_id = ? AND id = ?", bid, ctxId).Update("is_active", setActive).First(&ctx).Error
+		HanldeDbErr(err, "SetActiveContext")
+	} else {
+		err := br.db.Client.Model(&models.Context{}).Where("business_id = ? AND is_active = ?", bid, !setActive).Update("is_active", setActive).First(&ctx).Error
+		HanldeDbErr(err, "SetActiveContext")
+	}
+	return ctx
+
+}
+
 func (br *BusinessRepo) GetActiveContext(bid uint) *models.Context {
 	var ctx *models.Context = nil
 	err := br.db.Client.Where("business_id = ? AND is_active = ?", bid, true).First(&ctx).Error
@@ -87,22 +100,7 @@ func (br *BusinessRepo) GetContext(cid uint, bid uint) *models.Context {
 	return ctx
 }
 func (br *BusinessRepo) UseContext(cid uint, bid uint) *models.Context {
-	alreadyActive := br.GetActiveContext(bid)
-
-	if alreadyActive != nil {
-		//update it
-		alreadyActive.IsActive = false
-		br.db.Client.Save(&alreadyActive)
-	}
-	//make it active
-	ctx := br.GetContext(cid, bid)
-
-	if ctx != nil {
-		//found ctx
-		ctx.IsActive = true
-		br.db.Client.Save(&ctx)
-	}
-
+	ctx := br.UpdateActiveContext(bid, 0, false)
+	ctx = br.UpdateActiveContext(bid, cid, true)
 	return ctx
-
 }
