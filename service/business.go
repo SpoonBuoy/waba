@@ -65,7 +65,7 @@ func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) (*models.Bu
 	}
 	//creates new business
 	bCreated := bs.businessRepo.AddBusiness(b)
-	if bCreated.ID < 0 {
+	if bCreated.ID <= 0 {
 		return nil, fmt.Errorf("can't onboard the business")
 	}
 	// return bCreated
@@ -73,7 +73,7 @@ func (bs *BusinessService) CreateBusiness(bus dto.CreateBusinessReq) (*models.Bu
 }
 func (bs *BusinessService) ValidateBusiness(creds dto.LoginReq) (*models.Business, error) {
 	b := bs.businessRepo.ValidateBusiness(creds.Name, creds.Password)
-	if b.ID < 0 {
+	if b.ID <= 0 {
 		return nil, fmt.Errorf("invalid credentials")
 	}
 	return &b, nil
