@@ -4,10 +4,13 @@ WORKDIR /app
 
 COPY go.mod go.sum ./
 
-RUN go mod tidy
+RUN go mod download
 
 COPY . . 
 
-RUN go build -o tmp ./main.go
+RUN go build -o /app/tmp ./main.go
 
-RUN chmod +x tmp
+EXPOSE 9000:9000
+
+CMD ["./tmp"]
+
