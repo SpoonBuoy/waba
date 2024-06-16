@@ -12,4 +12,4 @@ jwt:
 
 service:
   llm:
-    chat_uri: llm.gasha.live/api/chat
+    chat_uri: https://llm.gasha.live/api/chat
