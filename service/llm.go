@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/SpoonBuoy/waba/dto"
 )
 
 type LlmService struct {
@@ -36,13 +38,18 @@ func (llms *LlmService) Send(query string, context string) string {
 	}
 
 	ans, err := io.ReadAll(res.Body)
-
 	if err != nil {
 		print(err.Error)
 		return "ai is down at the moment"
 	}
+	var result dto.LlmResponse
+	err = json.Unmarshal(ans, &result)
+	if err != nil {
+		print(err.Error)
+		return "ai could not unmarshall"
+	}
 
-	return string(ans)
+	return result.Result
 }
 
 func (llms *LlmService) GetResponse(context string, details string, query string) string {
