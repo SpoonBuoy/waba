@@ -102,5 +102,6 @@ func (br *BusinessRepo) GetContext(cid uint, bid uint) *models.Context {
 func (br *BusinessRepo) UseContext(cid uint, bid uint) *models.Context {
 	ctx := br.UpdateActiveContext(bid, 0, false)
 	ctx = br.UpdateActiveContext(bid, cid, true)
+	//
 	return ctx
 }
