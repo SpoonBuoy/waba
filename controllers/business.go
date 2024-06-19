@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -110,13 +109,17 @@ func (bc *BusinessController) Logout(ctx *gin.Context) {
 }
 
 var exp = time.Now().Add(time.Hour * 24).Unix()
-var secret = []byte("some_key")
 
 func (bc *BusinessController) CreateToken(bId uint, name string) (string, error) {
+	claims := make(jwt.MapClaims)
+	claims["businessId"] = bId
+	//we have to fetch the role
+	role := "role"
+	claims["role"] = role
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"sub": fmt.Sprint(bId),
+			"sub": claims,
 			"exp": exp,
 		},
 	)

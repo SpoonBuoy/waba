@@ -37,3 +37,20 @@ type ExcludedMapping struct {
 	BusinessID  uint
 	PhoneNumber string
 }
+
+type Role string
+
+const (
+	ADMIN Role = "admin"
+	ACTOR Role = "actor"
+)
+
+type Account struct {
+	gorm.Model
+	Name     string
+	Username string
+	Email    string
+	Phone    string
+	Password string
+	Role     Role
+}
