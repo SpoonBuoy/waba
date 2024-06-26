@@ -6,6 +6,7 @@ import (
 
 	"github.com/SpoonBuoy/waba/dto"
 	"github.com/SpoonBuoy/waba/service"
+	"github.com/ahsmha/gashtools/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,11 +15,13 @@ const token = "EAAnrp3AqNGwBOz2ltZCOaeWBQ5OdDm04TH1mnIibbH8aZC0AoZBVB0g1BuLNwq96
 
 type ChatController struct {
 	service *service.WabaService
+	logger  logger.ILogWriter
 }
 
-func NewChatController(service *service.WabaService) *ChatController {
+func NewChatController(service *service.WabaService, logger logger.ILogWriter) *ChatController {
 	return &ChatController{
 		service: service,
+		logger:  logger,
 	}
 }
 

@@ -6,15 +6,18 @@ import (
 	"github.com/SpoonBuoy/waba/dto"
 	"github.com/SpoonBuoy/waba/models"
 	"github.com/SpoonBuoy/waba/repository"
+	"github.com/ahsmha/gashtools/logger"
 )
 
 type BusinessService struct {
 	businessRepo repository.BusinessRepo
+	logger       logger.ILogWriter
 }
 
-func NewBusinessService(br repository.BusinessRepo) *BusinessService {
+func NewBusinessService(br repository.BusinessRepo, glogger logger.ILogWriter) *BusinessService {
 	return &BusinessService{
 		businessRepo: br,
+		logger:       glogger,
 	}
 }
 func (bs *BusinessService) CreateContext(c dto.CreateCtxReq, bid uint) models.Context {

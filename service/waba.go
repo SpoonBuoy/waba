@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/SpoonBuoy/waba/dto"
+	"github.com/ahsmha/gashtools/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,12 +16,14 @@ const token = "EAAnrp3AqNGwBO2sfhTKhwMa26jzjqGKFVLydCH379RJ7TAGpTKgL9TRZBOlVdOZA
 type WabaService struct {
 	business BusinessService
 	llm      LlmService
+	logger   logger.ILogWriter
 }
 
-func NewWabaService(businessSrv BusinessService, llmSrv LlmService) *WabaService {
+func NewWabaService(businessSrv BusinessService, llmSrv LlmService, logger logger.ILogWriter) *WabaService {
 	return &WabaService{
 		business: businessSrv,
 		llm:      llmSrv,
+		logger:   logger,
 	}
 }
 

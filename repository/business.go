@@ -5,15 +5,18 @@ import (
 
 	"github.com/SpoonBuoy/waba/db"
 	"github.com/SpoonBuoy/waba/models"
+	"github.com/ahsmha/gashtools/logger"
 )
 
 type BusinessRepo struct {
-	db db.Db
+	db     db.Db
+	logger logger.ILogWriter
 }
 
-func NewBusinessRepo(gdb db.Db) *BusinessRepo {
+func NewBusinessRepo(gdb db.Db, logger logger.ILogWriter) *BusinessRepo {
 	return &BusinessRepo{
-		db: gdb,
+		db:     gdb,
+		logger: logger,
 	}
 }
 

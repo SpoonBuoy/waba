@@ -9,6 +9,7 @@ import (
 	"github.com/SpoonBuoy/waba/middleware"
 	"github.com/SpoonBuoy/waba/repository"
 	"github.com/SpoonBuoy/waba/service"
+	clinicController "github.com/SpoonBuoy/waba/usecases/clinics/controllers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -57,21 +58,23 @@ func ReadConfig() {
 }
 func init() {
 	ReadConfig()
+	middleware.InitLogger()
 	Db = db.NewDb(dbHost, uint(dbPort), dbName, dbUser, dbPass)
 	if AutoMigrate {
 		Db.Migrate()
 	}
-	busRepo = repository.NewBusinessRepo(*Db)
-	busServ = service.NewBusinessService(*busRepo)
-	llmServ = service.NewLlmService(llmChatUri)
-	wabaService = service.NewWabaService(*busServ, *llmServ)
-	chatController = controllers.NewChatController(wabaService)
-	businessCtrl = controllers.NewBusinessController(*busServ, jwtSecret)
+	busRepo = repository.NewBusinessRepo(*Db, middleware.Logger)
+	busServ = service.NewBusinessService(*busRepo, middleware.Logger)
+	llmServ = service.NewLlmService(llmChatUri, middleware.Logger)
+	wabaService = service.NewWabaService(*busServ, *llmServ, middleware.Logger)
+	chatController = controllers.NewChatController(wabaService, middleware.Logger)
 	authMiddleware = middleware.NewAuthMiddleware(jwtSecret)
+	businessCtrl = controllers.NewBusinessController(*busServ, jwtSecret, middleware.Logger)
 }
 
 func main() {
 	r := gin.Default()
+	r.Use(middleware.Logger.Gin())
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*", "https://ai.gasha.live", "https://api.gasha.live", "http://localhost", "http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"},  // Including more methods
@@ -104,6 +107,9 @@ func main() {
 		waba := api.Group("/waba")
 		waba.GET("/event", chatController.Verify)
 		waba.POST("/event", chatController.Listen)
+
+		clinics := api.Group("/clinics")
+		clinicController.Init(clinics, middleware.Logger)
 
 	}
 	r.Run(":9000")

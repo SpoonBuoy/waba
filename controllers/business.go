@@ -9,6 +9,7 @@ import (
 	"github.com/SpoonBuoy/waba/dto"
 	"github.com/SpoonBuoy/waba/middleware"
 	"github.com/SpoonBuoy/waba/service"
+	"github.com/ahsmha/gashtools/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -16,12 +17,14 @@ import (
 type BusinessController struct {
 	Secret          []byte
 	businessService service.BusinessService
+	logger          logger.ILogWriter
 }
 
-func NewBusinessController(businessServ service.BusinessService, secret string) *BusinessController {
+func NewBusinessController(businessServ service.BusinessService, secret string, glogger logger.ILogWriter) *BusinessController {
 	return &BusinessController{
 		businessService: businessServ,
 		Secret:          []byte(secret),
+		logger:          glogger,
 	}
 }
 
@@ -70,6 +73,10 @@ func (bc *BusinessController) GetContexts(ctx *gin.Context) {
 	//get business id from token
 	// bid := ctx.GetInt("businessId")
 	bid := middleware.GetRequestKeys(ctx).BusinessId
+	bc.logger.Log(ctx, logger.Fields{
+		"message": "inside add business",
+		"bid":     uint(bid),
+	}, logger.DebugLevel, "here goes message")
 	cs := bc.businessService.GetAllContexts(uint(bid))
 	ctx.JSON(http.StatusOK, gin.H{"data": cs})
 }

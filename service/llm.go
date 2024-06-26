@@ -8,15 +8,20 @@ import (
 	"net/http"
 
 	"github.com/SpoonBuoy/waba/dto"
+	"github.com/ahsmha/gashtools/logger"
 )
 
 type LlmService struct {
 	BaseAddr string
+	logger   logger.ILogWriter
 }
 
-func NewLlmService(addr string) *LlmService {
+func NewLlmService(addr string, logger logger.ILogWriter) *LlmService {
 	fmt.Printf("llm service with %s uri started", addr)
-	return &LlmService{BaseAddr: addr}
+	return &LlmService{
+		BaseAddr: addr,
+		logger:   logger,
+	}
 }
 
 func (llms *LlmService) Send(query string, context string) string {
