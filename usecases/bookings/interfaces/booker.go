@@ -10,6 +10,6 @@ type IBookerService interface {
 	GetBookings(ctx context.Context)
 }
 
-type IBookerRepository interface {
+type IBookingRepository interface {
 	GetBookings(ctx context.Context)
 }

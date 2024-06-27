@@ -2,13 +2,20 @@ package middleware
 
 import (
 	"os"
+	"sync"
 
 	gl "github.com/ahsmha/gashtools/logger"
 )
 
-var Logger gl.IGashaLogger
+var (
+	_loggerOnce sync.Once
+)
 
-func InitLogger() {
-	os.Setenv("LOGLEVEL", "trace")
-	Logger = gl.NewGLogger(gl.WithAccessLogOptions())
+func InitLogger() gl.IGashaLogger {
+	var logger gl.IGashaLogger
+	_loggerOnce.Do(func() {
+		os.Setenv("LOGLEVEL", "trace")
+		logger = gl.NewGLogger(gl.WithAccessLogOptions())
+	})
+	return logger
 }
