@@ -5,16 +5,14 @@ import (
 
 	"github.com/SpoonBuoy/waba/db"
 	"github.com/SpoonBuoy/waba/usecases/bookings/interfaces"
-	"github.com/SpoonBuoy/waba/usecases/clinics/repository"
 	"github.com/ahsmha/gashtools/logger"
 )
 
 var BookingsService interfaces.IBookingsService
 var _bookingsService sync.Once
 
-func Init(logger logger.ILogWriter, db *db.Db) {
+func Init(logger logger.ILogWriter, db *db.Db, repo interfaces.IClinicsRepository) {
 	_bookingsService.Do(func() {
-		repository.InitClinicRepo(logger, db)
-		BookingsService = newBookingsService(logger, repository.ClinicRepo)
+		BookingsService = newBookingsService(logger, repo)
 	})
 }

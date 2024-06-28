@@ -11,9 +11,3 @@ type IBookerService interface {
 	GetBookings(ctx *gin.Context)
 	Book(ctx *gin.Context)
 }
-
-type IBookingRepository interface {
-	GetBookings(ctx *gin.Context)
-	Book(ctx *gin.Context)
-	UpdateAvailability(ctx *gin.Context)
-}

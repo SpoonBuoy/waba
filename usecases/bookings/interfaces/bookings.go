@@ -1,5 +1,7 @@
 package interfaces
 
+import "github.com/gin-gonic/gin"
+
 type IBookingsController interface {
 	IBookerController
 	IActorController
@@ -10,7 +12,8 @@ type IBookingsService interface {
 	IActorService
 }
 
-type IClinicsRepository interface {
-	IBookingRepository
-	IClinicRepository
+type IBookingsRepository interface {
+	GetBookings(ctx *gin.Context)
+	Book(ctx *gin.Context)
+	UpdateAvailability(ctx *gin.Context)
 }

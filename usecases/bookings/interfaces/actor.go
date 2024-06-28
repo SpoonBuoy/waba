@@ -15,10 +15,3 @@ type IActorService interface {
 	UpdateActor(ctx *gin.Context)
 	DisableActor(ctx *gin.Context)
 }
-
-type IClinicRepository interface {
-	GetDoctors(ctx *gin.Context)
-	AddDoctor(ctx *gin.Context)
-	UpdateDoctor(ctx *gin.Context)
-	DisableDoctor(ctx *gin.Context)
-}
