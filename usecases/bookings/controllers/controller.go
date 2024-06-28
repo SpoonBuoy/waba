@@ -13,6 +13,6 @@ var _bookingsController sync.Once
 
 func Init(logger logger.ILogWriter, db *db.Db, svc interfaces.IBookingsService) {
 	_bookingsController.Do(func() {
-		BookingsController = newBookingsController(logger, svc)
+		BookingsController = NewBookingsController(logger, svc)
 	})
 }

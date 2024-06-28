@@ -9,8 +9,8 @@ import (
 	"github.com/SpoonBuoy/waba/middleware"
 	"github.com/SpoonBuoy/waba/repository"
 	"github.com/SpoonBuoy/waba/service"
-	"github.com/SpoonBuoy/waba/usecases/bookings"
 	bc "github.com/SpoonBuoy/waba/usecases/bookings/controllers"
+	"github.com/SpoonBuoy/waba/usecases/clinics"
 	"github.com/ahsmha/gashtools/logger"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -74,8 +74,8 @@ func init() {
 	authMiddleware = middleware.NewAuthMiddleware(jwtSecret)
 	businessCtrl = controllers.NewBusinessController(*busServ, jwtSecret, Logger)
 
-	// usecases
-	bookings.Init(Logger, Db)
+	// clinics
+	clinics.Init(Logger, Db)
 }
 
 func main() {

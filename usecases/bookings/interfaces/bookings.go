@@ -1,6 +1,8 @@
 package interfaces
 
-import "github.com/gin-gonic/gin"
+import (
+	typeinterfaces "github.com/SpoonBuoy/waba/usecases/bookings/type-interfaces"
+)
 
 type IBookingsController interface {
 	IBookerController
@@ -13,11 +15,9 @@ type IBookingsService interface {
 }
 
 type IBookingsRepository interface {
-	GetBookings(ctx *gin.Context)
-	Book(ctx *gin.Context)
-	UpdateAvailability(ctx *gin.Context)
-	GetActors(ctx *gin.Context)
-	AddActor(ctx *gin.Context)
-	UpdateActor(ctx *gin.Context)
-	DisableActor(ctx *gin.Context)
+	typeinterfaces.Actor
+	typeinterfaces.Slot
+	typeinterfaces.Appointment
+	typeinterfaces.ActorServices
+	typeinterfaces.BusinessController
 }
