@@ -16,7 +16,7 @@ func (ds DermoService) Type() string {
 	return ds.Name
 }
 
-func NewDermoService(name string) bookings.ActorServices {
+func NewDermoService(name string) bookings.ActorService {
 	return DermoService{Name: name}
 }
 
@@ -41,13 +41,13 @@ func (da DocAppointment) Book() {
 // it should implement actor
 type Doctor struct {
 	Name         string
-	Service      bookings.ActorServices
+	Service      bookings.ActorService
 	Details      string
 	Slots        []bookings.Slot
 	Appointments []bookings.Appointment
 }
 
-func NewDoctor(svc bookings.ActorServices, name string) bookings.Actor {
+func NewDoctor(svc bookings.ActorService, name string) bookings.Actor {
 	return &Doctor{
 		Service: svc,
 		Name:    name,
@@ -105,6 +105,15 @@ func (mb MedicalBusiness) GetActor(i int) bookings.Actor {
 func (mb MedicalBusiness) GetAllActors() []bookings.Actor {
 	//gets all actors
 	return mb.Doctors
+}
+func (mb MedicalBusiness) GetAllAppointments() []bookings.Appointment {
+	return nil
+}
+func (mb MedicalBusiness) GetAllServices() []bookings.ActorService {
+	return nil
+}
+func (mb MedicalBusiness) AddService(svc bookings.ActorService) {
+
 }
 func NewMedicalBusiness() bookings.BusinessController {
 	return MedicalBusiness{}
