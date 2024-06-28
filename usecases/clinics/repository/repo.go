@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	ClinicRepo      interfaces.IClinicsRepository
+	ClinicRepo      interfaces.IBookingsRepository
 	_clinicRepoOnce sync.Once
 )
 
@@ -18,8 +18,8 @@ type clinicRepo struct {
 	logger logger.ILogWriter
 }
 
-func newClinicRepo(db *db.Db, logger logger.ILogWriter) *clinicRepo {
-	return &clinicRepo{
+func NewClinicRepo(db *db.Db, logger logger.ILogWriter) interfaces.IBookingsRepository {
+	return clinicRepo{
 		db:     db,
 		logger: logger,
 	}
@@ -27,6 +27,6 @@ func newClinicRepo(db *db.Db, logger logger.ILogWriter) *clinicRepo {
 
 func InitClinicRepo(logger logger.ILogWriter, db *db.Db) {
 	_clinicRepoOnce.Do(func() {
-		ClinicRepo = newClinicRepo(db, logger)
+		ClinicRepo = NewClinicRepo(db, logger)
 	})
 }

@@ -1,8 +1,8 @@
 module github.com/SpoonBuoy/waba
 
-go 1.23
+go 1.20
 
-toolchain go1.23rc1
+//toolchain go1.20rc1
 
 require (
 	github.com/ahsmha/gashtools v1.0.1

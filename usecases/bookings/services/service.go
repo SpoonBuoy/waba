@@ -11,8 +11,8 @@ import (
 var BookingsService interfaces.IBookingsService
 var _bookingsService sync.Once
 
-func Init(logger logger.ILogWriter, db *db.Db, repo interfaces.IClinicsRepository) {
+func Init(logger logger.ILogWriter, db *db.Db, repo interfaces.IBookingsRepository) {
 	_bookingsService.Do(func() {
-		BookingsService = newBookingsService(logger, repo)
+		BookingsService = NewBookingsService(logger, repo)
 	})
 }

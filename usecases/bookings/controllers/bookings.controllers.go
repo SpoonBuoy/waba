@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/SpoonBuoy/waba/usecases/bookings/interfaces"
-	"github.com/ahsmha/gashtools/logger"
+	logger "github.com/ahsmha/gashtools/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +13,7 @@ type bookingsController struct {
 	bservice interfaces.IBookingsService
 }
 
-func newBookingsController(logger logger.ILogWriter, service interfaces.IBookingsService) *bookingsController {
+func NewBookingsController(logger logger.ILogWriter, service interfaces.IBookingsService) *bookingsController {
 	return &bookingsController{
 		logger:   logger,
 		bservice: service,

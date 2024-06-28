@@ -8,23 +8,23 @@ import (
 
 type bookingservice struct {
 	logger logger.ILogWriter
-	crepo  interfaces.IClinicsRepository
+	repo   interfaces.IBookingsRepository
 }
 
-func newBookingsService(logger logger.ILogWriter, clinicRepo interfaces.IClinicsRepository) *bookingservice {
+func NewBookingsService(logger logger.ILogWriter, repo interfaces.IBookingsRepository) *bookingservice {
 	return &bookingservice{
 		logger: logger,
-		crepo:  clinicRepo,
+		repo:   repo,
 	}
 }
 
 // booker interface
 func (bs *bookingservice) GetBookings(ctx *gin.Context) {
-	bs.crepo.GetBookings(ctx)
+	bs.repo.GetBookings(ctx)
 	return
 }
 
 func (bs *bookingservice) Book(ctx *gin.Context) {
-	bs.crepo.Book(ctx)
+	bs.repo.Book(ctx)
 	return
 }
