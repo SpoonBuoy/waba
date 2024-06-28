@@ -4,11 +4,12 @@ import (
 	"sync"
 
 	"github.com/SpoonBuoy/waba/db"
+	"github.com/SpoonBuoy/waba/usecases/bookings/interfaces"
 	"github.com/SpoonBuoy/waba/usecases/clinics/repository"
 	"github.com/ahsmha/gashtools/logger"
 )
 
-var BookingsService *bookingservice
+var BookingsService interfaces.IBookingsService
 var _bookingsService sync.Once
 
 func Init(logger logger.ILogWriter, db *db.Db) {

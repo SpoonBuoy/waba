@@ -22,11 +22,15 @@ func newBookingsController(logger logger.ILogWriter, service interfaces.IBooking
 
 func BookingRoutes(bRouter *gin.RouterGroup) {
 	r := BookingsController
-	bRouter.GET("/hi", BookingsController.GetBookings)
-	bRouter.GET("/hii", r.GetBookings)
+	bRouter.GET("/hi", r.AddActor)
+	bRouter.GET("/hii", r.Book)
 }
 
 func (bc *bookingsController) GetBookings(ctx *gin.Context) {
 	bc.bservice.GetBookings(ctx)
 	ctx.JSON(http.StatusOK, gin.H{"valid": true})
+}
+
+func (bc *bookingsController) Book(ctx *gin.Context) {
+	bc.bservice.Book(ctx)
 }

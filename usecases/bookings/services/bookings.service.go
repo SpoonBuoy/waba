@@ -1,10 +1,9 @@
 package services
 
 import (
-	"context"
-
 	"github.com/SpoonBuoy/waba/usecases/bookings/interfaces"
 	"github.com/ahsmha/gashtools/logger"
+	"github.com/gin-gonic/gin"
 )
 
 type bookingservice struct {
@@ -19,7 +18,13 @@ func newBookingsService(logger logger.ILogWriter, clinicRepo interfaces.IClinics
 	}
 }
 
-func (cs *bookingservice) GetBookings(ctx context.Context) {
-	cs.crepo.GetBookings(ctx)
+// booker interface
+func (bs *bookingservice) GetBookings(ctx *gin.Context) {
+	bs.crepo.GetBookings(ctx)
+	return
+}
+
+func (bs *bookingservice) Book(ctx *gin.Context) {
+	bs.crepo.Book(ctx)
 	return
 }

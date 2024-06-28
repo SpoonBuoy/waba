@@ -1,15 +1,19 @@
 package interfaces
 
-import "context"
+import "github.com/gin-gonic/gin"
 
 type IBookerController interface {
-	GetBookings(ctx context.Context)
+	GetBookings(ctx *gin.Context)
+	Book(ctx *gin.Context)
 }
 
 type IBookerService interface {
-	GetBookings(ctx context.Context)
+	GetBookings(ctx *gin.Context)
+	Book(ctx *gin.Context)
 }
 
 type IBookingRepository interface {
-	GetBookings(ctx context.Context)
+	GetBookings(ctx *gin.Context)
+	Book(ctx *gin.Context)
+	UpdateAvailability(ctx *gin.Context)
 }

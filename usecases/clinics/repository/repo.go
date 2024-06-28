@@ -4,11 +4,12 @@ import (
 	"sync"
 
 	"github.com/SpoonBuoy/waba/db"
+	"github.com/SpoonBuoy/waba/usecases/bookings/interfaces"
 	"github.com/ahsmha/gashtools/logger"
 )
 
 var (
-	ClinicRepo      *clinicRepo
+	ClinicRepo      interfaces.IClinicsRepository
 	_clinicRepoOnce sync.Once
 )
 
