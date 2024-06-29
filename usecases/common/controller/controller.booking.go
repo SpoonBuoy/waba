@@ -1,11 +1,18 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/SpoonBuoy/waba/usecases/common/service"
+	"github.com/gin-gonic/gin"
+)
 
-type BookingController struct{}
+type BookingController struct {
+	Svc *service.BookingService
+}
 
-func NewBookingController() *BookingController {
-	return &BookingController{}
+func NewBookingController(svc *service.BookingService) *BookingController {
+	return &BookingController{
+		Svc: svc,
+	}
 }
 
 func (bc *BookingController) CreateActor(*gin.Context) {
