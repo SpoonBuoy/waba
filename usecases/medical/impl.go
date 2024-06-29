@@ -4,7 +4,10 @@ import (
 	"time"
 
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
+	"gorm.io/gorm"
 )
+
+var Db *gorm.DB
 
 // DermoService--ActorService implementation
 func (ds DermoService) Type() string {
@@ -59,9 +62,15 @@ func (mb MedicalBusiness) AddActor(doc bookings.Actor) {
 	//adds doctor
 }
 
-func (mb MedicalBusiness) GetActor(i int) bookings.Actor {
+func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	//gets ith doctor
-	return mb.Doctors[i]
+	//return mb.Doctors[i]
+	var doc Doctor
+	err := Db.Where("id = ?", id).First(&doc).Error
+	if err != nil {
+
+	}
+	return &doc
 }
 
 func (mb MedicalBusiness) GetAllActors() []bookings.Actor {
