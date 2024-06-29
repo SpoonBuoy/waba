@@ -6,7 +6,7 @@ import (
 )
 
 type BookingService struct {
-	Ctrl bookings.BusinessController
+	Ctrl bookings.Business
 }
 
 func NewBookingService() *BookingService {
@@ -18,8 +18,9 @@ func (bc *BookingService) CreateActor(req medical.CreateActorReq) {
 	bc.Ctrl.AddActor(&doctor)
 }
 
-func (bc *BookingService) GetActor(id int) {
-	bc.Ctrl.GetActor(id)
+func (bc *BookingService) GetActor(id int) bookings.Actor {
+	doc := bc.Ctrl.GetActor(id)
+	return doc
 }
 
 func (bc *BookingService) GetAllActors() {
@@ -29,11 +30,12 @@ func (bc *BookingService) GetAllActors() {
 func (bc *BookingService) GetAllAppointments() {
 	bc.Ctrl.GetAllAppointments()
 }
-func (bc *BookingService) GetSlots() {
+func (bc *BookingService) GetSlots() []bookings.Slot {
 	//get the slots of doc
 	var docId int
 	doc := bc.Ctrl.GetActor(docId)
-	_ = doc.GetSlots()
+	slots := doc.GetSlots()
+	return slots
 }
 func (bc *BookingService) CreateAppointment(req medical.CreateAppointmentReq) {
 	//we have to create an appointment for some doc

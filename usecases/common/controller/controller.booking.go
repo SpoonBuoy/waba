@@ -19,8 +19,12 @@ func (bc *BookingController) CreateActor(*gin.Context) {
 
 }
 
-func (bc *BookingController) GetActor(*gin.Context) {
+func (bc *BookingController) GetActor(ctx *gin.Context) {
 
+	var actorId int
+	//return actor
+	actor := bc.Svc.GetActor(actorId)
+	ctx.JSON(200, gin.H{"actor": actor})
 }
 
 func (bc *BookingController) GetAllActors(*gin.Context) {
