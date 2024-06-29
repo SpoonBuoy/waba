@@ -9,8 +9,10 @@ type BookingService struct {
 	Ctrl bookings.Business
 }
 
-func NewBookingService() *BookingService {
-	return &BookingService{}
+func NewBookingService(business bookings.BusinessController) *BookingService {
+	return &BookingService{
+		Ctrl: business,
+	}
 }
 func (bc *BookingService) CreateActor(req medical.CreateActorReq) {
 	//we create a doctor
