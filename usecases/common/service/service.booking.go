@@ -15,7 +15,8 @@ func NewBookingService() *BookingService {
 func (bc *BookingService) CreateActor(req medical.CreateActorReq) {
 	//we create a doctor
 	doctor := medical.Doctor{}
-	bc.Ctrl.AddActor(&doctor)
+	var bid int
+	bc.Ctrl.AddActor(&doctor, bid)
 }
 
 func (bc *BookingService) GetActor(id int) bookings.Actor {
@@ -23,12 +24,12 @@ func (bc *BookingService) GetActor(id int) bookings.Actor {
 	return doc
 }
 
-func (bc *BookingService) GetAllActors() {
-	bc.Ctrl.GetAllActors()
+func (bc *BookingService) GetAllActors(bid int) {
+	bc.Ctrl.GetAllActors(bid)
 }
 
-func (bc *BookingService) GetAllAppointments() {
-	bc.Ctrl.GetAllAppointments()
+func (bc *BookingService) GetAllAppointments(bid int) {
+	bc.Ctrl.GetAllAppointments(bid)
 }
 func (bc *BookingService) GetSlots() []bookings.Slot {
 	//get the slots of doc
