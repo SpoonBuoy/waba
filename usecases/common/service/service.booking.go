@@ -6,7 +6,7 @@ import (
 )
 
 type BookingService struct {
-	Ctrl bookings.BusinessController
+	Ctrl bookings.Business
 }
 
 func NewBookingService() *BookingService {

@@ -77,7 +77,7 @@ func (mb MedicalBusiness) GetAllServices() []bookings.ActorService {
 func (mb MedicalBusiness) AddService(svc bookings.ActorService) {
 
 }
-func NewMedicalBusiness() bookings.BusinessController {
+func NewMedicalBusiness() bookings.Business {
 	return MedicalBusiness{}
 }
 
