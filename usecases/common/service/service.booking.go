@@ -33,7 +33,7 @@ func (bc *BookingService) GetSlots() {
 	//get the slots of doc
 	var docId int
 	doc := bc.Ctrl.GetActor(docId)
-	slots := doc.GetSlots()
+	_ = doc.GetSlots()
 }
 func (bc *BookingService) CreateAppointment(req medical.CreateAppointmentReq) {
 	//we have to create an appointment for some doc
