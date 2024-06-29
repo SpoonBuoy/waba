@@ -4,10 +4,7 @@ import (
 	"time"
 
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
-	"gorm.io/gorm"
 )
-
-var Db *gorm.DB
 
 func HandleDbErr(err error) {}
 
@@ -68,7 +65,7 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	//gets ith doctor
 	//return mb.Doctors[i]
 	var doc Doctor
-	err := Db.Where("id = ?", id).First(&doc).Error
+	err := mb.Db.Where("id = ?", id).First(&doc).Error
 	if err != nil {
 		HandleDbErr(err)
 		return nil
@@ -76,15 +73,47 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	return &doc
 }
 
+// helper func
+func docById(docs []bookings.Actor, id int) bookings.Actor {
+	return docs[0]
+}
+func (mb MedicalBusiness) GetSlots(docId int, bid int) []bookings.Slot {
+	var clinic MedicalBusiness
+	err := mb.Db.Where("id = ?", bid).Preload("Doctor").First(&clinic).Error
+	if err != nil {
+		HandleDbErr(err)
+		return nil
+	}
+	doc := docById(clinic.Doctors, docId)
+	return doc.GetSlots()
+}
 func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
 	//gets all actors
-	return mb.Doctors
+	var clinic MedicalBusiness
+	err := mb.Db.Where("id = ?", bid).Preload("Doctor").First(&clinic).Error
+	if err != nil {
+		HandleDbErr(err)
+		return nil
+	}
+	return clinic.Doctors
 }
 func (mb MedicalBusiness) GetAllAppointments(bid int) []bookings.Appointment {
-	return nil
+	var clinic MedicalBusiness
+	err := mb.Db.Where("id = ?", bid).Preload("DocAppointment").First(&clinic).Error
+	if err != nil {
+		HandleDbErr(err)
+		return nil
+	}
+	return clinic.Appointments
 }
 func (mb MedicalBusiness) GetAllServices(bid int) []bookings.ActorService {
-	return nil
+	var clinic MedicalBusiness
+	err := mb.Db.Where("id = ?", bid).Preload("DermoService").First(&clinic).Error
+	if err != nil {
+		HandleDbErr(err)
+		return nil
+	}
+	return clinic.Services
 }
 func (mb MedicalBusiness) AddService(svc bookings.ActorService, bid int) {
 

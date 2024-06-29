@@ -4,6 +4,7 @@ import (
 	"time"
 
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
+	"gorm.io/gorm"
 )
 
 // should implement ActorService
@@ -52,6 +53,7 @@ type MedicalBusiness struct {
 	Appointments []bookings.Appointment
 	Doctors      []bookings.Actor
 	Services     []bookings.ActorService
+	Db           *gorm.DB
 }
 
 type DocSlot struct {
