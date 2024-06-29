@@ -9,6 +9,8 @@ import (
 
 var Db *gorm.DB
 
+func HandleDbErr(err error) {}
+
 // DermoService--ActorService implementation
 func (ds DermoService) Type() string {
 	return ds.Name
@@ -58,7 +60,7 @@ func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duratio
 }
 
 // Medical Bussiness -- Business
-func (mb MedicalBusiness) AddActor(doc bookings.Actor) {
+func (mb MedicalBusiness) AddActor(doc bookings.Actor, bid int) {
 	//adds doctor
 }
 
@@ -68,22 +70,23 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	var doc Doctor
 	err := Db.Where("id = ?", id).First(&doc).Error
 	if err != nil {
-
+		HandleDbErr(err)
+		return nil
 	}
 	return &doc
 }
 
-func (mb MedicalBusiness) GetAllActors() []bookings.Actor {
+func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
 	//gets all actors
 	return mb.Doctors
 }
-func (mb MedicalBusiness) GetAllAppointments() []bookings.Appointment {
+func (mb MedicalBusiness) GetAllAppointments(bid int) []bookings.Appointment {
 	return nil
 }
-func (mb MedicalBusiness) GetAllServices() []bookings.ActorService {
+func (mb MedicalBusiness) GetAllServices(bid int) []bookings.ActorService {
 	return nil
 }
-func (mb MedicalBusiness) AddService(svc bookings.ActorService) {
+func (mb MedicalBusiness) AddService(svc bookings.ActorService, bid int) {
 
 }
 func NewMedicalBusiness() bookings.Business {

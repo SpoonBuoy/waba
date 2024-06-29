@@ -96,7 +96,7 @@ type MedicalBusiness struct {
 	Doctors []bookings.Actor
 }
 
-func (mb MedicalBusiness) AddActor(doc bookings.Actor) {
+func (mb MedicalBusiness) AddActor(doc bookings.Actor, bid int) {
 	//adds doctor
 }
 
@@ -105,17 +105,17 @@ func (mb MedicalBusiness) GetActor(i int) bookings.Actor {
 	return mb.Doctors[i]
 }
 
-func (mb MedicalBusiness) GetAllActors() []bookings.Actor {
+func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
 	//gets all actors
 	return mb.Doctors
 }
-func (mb MedicalBusiness) GetAllAppointments() []bookings.Appointment {
+func (mb MedicalBusiness) GetAllAppointments(bid int) []bookings.Appointment {
 	return nil
 }
-func (mb MedicalBusiness) GetAllServices() []bookings.ActorService {
+func (mb MedicalBusiness) GetAllServices(bid int) []bookings.ActorService {
 	return nil
 }
-func (mb MedicalBusiness) AddService(svc bookings.ActorService) {
+func (mb MedicalBusiness) AddService(svc bookings.ActorService, bid int) {
 
 }
 func NewMedicalBusiness() bookings.Business {
@@ -157,7 +157,7 @@ func main() {
 	//lets add some dermo doctors to it
 	for i := 0; i < 2; i++ {
 		//create a dermo service
-		myClinic.AddActor(myDermoDoc)
+		myClinic.AddActor(myDermoDoc, 0)
 	}
 
 	//lets book 2 appointments for our shadab
