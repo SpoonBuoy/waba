@@ -11,4 +11,5 @@ type Actor interface {
 	AddAppointment(Appointment)
 	GetAllAppointments() []Appointment
 	SlotFactory(from time.Time, to time.Time, duration time.Duration)
+	GetSlots() []Slot
 }

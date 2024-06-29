@@ -57,6 +57,9 @@ func (d Doctor) BookSlot(slot bookings.Slot) {
 	//book a slot
 
 }
+func (d Doctor) GetSlots() []bookings.Slot {
+	return d.Slots
+}
 func (d Doctor) FreeSlot() {
 	//free a slot
 }

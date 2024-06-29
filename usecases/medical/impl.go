@@ -38,6 +38,9 @@ func (d Doctor) AddAppointment(apt bookings.Appointment) {
 func (d Doctor) GetAllAppointments() []bookings.Appointment {
 	return d.Appointments
 }
+func (d Doctor) GetSlots() []bookings.Slot {
+	return d.Slots
+}
 func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
 	//creates a slot factory at first time for a doc
 	var slots []bookings.Slot
