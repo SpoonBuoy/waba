@@ -23,7 +23,7 @@ func (bc *BookingController) GetActor(ctx *gin.Context) {
 
 	var actorId int
 	//return actor
-	actor := bc.Svc.Ctrl.GetActor(actorId)
+	actor := bc.Svc.GetActor(actorId)
 	ctx.JSON(200, gin.H{"actor": actor})
 }
 
