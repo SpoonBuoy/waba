@@ -56,9 +56,15 @@ func (d Doctor) AddAppointment(apt typeinterfaces.Appointment) {
 func (d Doctor) GetAllAppointments() []typeinterfaces.Appointment {
 	return d.Appointments
 }
+<<<<<<< HEAD
 func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
 	//creates a slot factory at first time for a doc
 	var slots []Slot
+=======
+func (d Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
+	//creates a slot factory at first time for a doc
+	var slots []typeinterfaces.Slot
+>>>>>>> 4220092 (fix errors)
 	//while from is less than to
 	for from.Before(to) {
 		thisSlotTo := from.Add(duration)
