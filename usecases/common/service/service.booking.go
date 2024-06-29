@@ -9,7 +9,7 @@ type BookingService struct {
 	Ctrl bookings.Business
 }
 
-func NewBookingService(business bookings.BusinessController) *BookingService {
+func NewBookingService(business bookings.Business) *BookingService {
 	return &BookingService{
 		Ctrl: business,
 	}

@@ -1,17 +1,17 @@
-package medical
+package controller
 
 import (
-	"github.com/SpoonBuoy/waba/usecases/common/controller"
 	"github.com/SpoonBuoy/waba/usecases/common/service"
+	"github.com/SpoonBuoy/waba/usecases/medical"
 	"github.com/gin-gonic/gin"
 )
 
-var bc *controller.BookingController
+var bc *BookingController
 
 func InitMed() {
-	medBus := NewMedicalBusiness()
-	ser := service.NewBookingService()
-	bc = controller.NewBookingController(ser)
+	medBus := medical.NewMedicalBusiness()
+	ser := service.NewBookingService(medBus)
+	bc = NewBookingController(ser)
 }
 
 func MedicalRouter(med *gin.RouterGroup) {
