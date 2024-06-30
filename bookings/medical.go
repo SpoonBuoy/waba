@@ -118,7 +118,7 @@ func (mb MedicalBusiness) GetAllServices(bid int) []bookings.ActorService {
 func (mb MedicalBusiness) AddService(svc bookings.ActorService, bid int) {
 
 }
-func NewMedicalBusiness() bookings.Business {
+func NewMedicalBusiness() bookings.BusinessRepo {
 	return MedicalBusiness{}
 }
 
