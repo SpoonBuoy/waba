@@ -1,7 +1,7 @@
 package bookings
 
 // manages all the operations for business
-type Business interface {
+type BusinessRepo interface {
 	AddActor(Actor, int)
 	GetActor(int) Actor
 	GetAllActors(int) []Actor

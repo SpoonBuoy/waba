@@ -40,14 +40,17 @@ type Doctor struct {
 	Appointments []bookings.Appointment
 }
 
-func NewDoctor(svc bookings.ActorService, name string) bookings.Actor {
+func NewDoctor(svc bookings.ActorService, name string, details string, slots []bookings.Slot, appts []bookings.Appointment) bookings.Actor {
 	return &Doctor{
-		Service: svc,
-		Name:    name,
+		Service:      svc,
+		Name:         name,
+		Details:      details,
+		Slots:        slots,
+		Appointments: appts,
 	}
 }
 
-// it should implement BusinessController
+// it should implement BusinessRepo
 type MedicalBusiness struct {
 	Name         string
 	Appointments []bookings.Appointment

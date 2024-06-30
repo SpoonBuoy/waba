@@ -6,10 +6,10 @@ import (
 )
 
 type BookingService struct {
-	Ctrl bookings.Business
+	Ctrl bookings.BusinessRepo
 }
 
-func NewBookingService(business bookings.Business) *BookingService {
+func NewBookingService(business bookings.BusinessRepo) *BookingService {
 	return &BookingService{
 		Ctrl: business,
 	}
