@@ -14,8 +14,8 @@ func (mb MedicalBusiness) GetSlots(docId int, bid int) []bookings.Slot {
 		return nil
 	}
 	doc := docById(clinic.Doctors, docId)
-	actor := NewDoctor(nil, doc.Name)
-	return actor.GetSlots()
+	//actor := NewDoctor(nil, doc.Name)
+	//
 }
 func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
 	//gets all actors

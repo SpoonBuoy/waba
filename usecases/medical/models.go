@@ -30,7 +30,7 @@ type Slot struct {
 	gorm.Model
 	From        time.Time
 	To          time.Time
-	IsAvailable bool
+	isAvailable bool
 }
 
 // helper funcs

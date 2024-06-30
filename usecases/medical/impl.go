@@ -37,21 +37,31 @@ func (d Doctor) AddAppointment(apt bookings.Appointment) {
 	//adds appointment to doc
 	d.Appointments = append(d.Appointments, apt)
 }
+
 func (d Doctor) GetAllAppointments() []bookings.Appointment {
-	return d.Appointments
+	var res []bookings.Appointment
+	for _, appt := range d.Appointments {
+		res = append(res, appt)
+	}
+	return res
 }
+
 func (d Doctor) GetSlots() []bookings.Slot {
-	return d.Slots
+	var res []bookings.Slot
+	for _, slot := range d.Slots {
+		res = append(res, slot)
+	}
+	return res
 }
 func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
 	//creates a slot factory at first time for a doc
-	var slots []bookings.Slot
+	var slots []DocSlot
 	//while from is less than to
 	for from.Before(to) {
 		thisSlotTo := from.Add(duration)
 		slot := NewDocSlot(from, thisSlotTo)
 		from = thisSlotTo
-		slots = append(slots, &slot)
+		slots = append(slots, slot)
 	}
 	d.Slots = slots
 }
@@ -73,59 +83,9 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	return &doc
 }
 
-// helper func
-func docById(docs []bookings.Actor, id int) bookings.Actor {
-	return docs[0]
-}
-func (mb MedicalBusiness) GetSlots(docId int, bid int) []bookings.Slot {
-	var clinic MedicalBusiness
-	err := mb.Db.Where("id = ?", bid).Preload("Doctor").First(&clinic).Error
-	if err != nil {
-		HandleDbErr(err)
-		return nil
-	}
-	doc := docById(clinic.Doctors, docId)
-	return doc.GetSlots()
-}
-func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
-	//gets all actors
-	var clinic MedicalBusiness
-	err := mb.Db.Where("id = ?", bid).Preload("Doctor").First(&clinic).Error
-	if err != nil {
-		HandleDbErr(err)
-		return nil
-	}
-	return clinic.Doctors
-}
-func (mb MedicalBusiness) GetAllAppointments(bid int) []bookings.Appointment {
-	var clinic MedicalBusiness
-	err := mb.Db.Where("id = ?", bid).Preload("DocAppointment").First(&clinic).Error
-	if err != nil {
-		HandleDbErr(err)
-		return nil
-	}
-	return clinic.Appointments
-}
-func (mb MedicalBusiness) GetAllServices(bid int) []bookings.ActorService {
-	var clinic MedicalBusiness
-	err := mb.Db.Where("id = ?", bid).Preload("DermoService").First(&clinic).Error
-	if err != nil {
-		HandleDbErr(err)
-		return nil
-	}
-	return clinic.Services
-}
-func (mb MedicalBusiness) AddService(svc bookings.ActorService, bid int) {
-
-}
-func NewMedicalBusiness() bookings.BusinessRepo {
-	return MedicalBusiness{}
-}
-
-// DocSlot--Slot
-func (s *DocSlot) IsAvailable() bool {
+func (s DocSlot) IsAvailable() bool {
 	return s.Available
 }
-func (s *DocSlot) FromTo() (time.Time, time.Time) {
+func (s DocSlot) FromTo() (time.Time, time.Time) {
 	return s.From, s.To
 }

@@ -20,42 +20,32 @@ func NewDermoService(name string) bookings.ActorService {
 type DocAppointment struct {
 	Doctor string
 	User   string
-	Slot   bookings.Slot
+	Slot   DocSlot
 }
 
-func NewDocAppointment(doc string, user string, slot bookings.Slot) bookings.Appointment {
-	return DocAppointment{
-		Doctor: doc,
-		User:   user,
-		Slot:   slot,
-	}
-}
+// func NewDocAppointment(doc string, user string, slot bookings.Slot) bookings.Appointment {
+// 	return DocAppointment{
+// 		Doctor: doc,
+// 		User:   user,
+// 		Slot:   slot,
+// 	}
+// }
 
 // it should implement actor
 type Doctor struct {
 	Name         string
-	Service      bookings.ActorService
+	Service      DermoService
 	Details      string
-	Slots        []bookings.Slot
-	Appointments []bookings.Appointment
-}
-
-func NewDoctor(svc bookings.ActorService, name string, details string, slots []bookings.Slot, appts []bookings.Appointment) bookings.Actor {
-	return &Doctor{
-		Service:      svc,
-		Name:         name,
-		Details:      details,
-		Slots:        slots,
-		Appointments: appts,
-	}
+	Slots        []DocSlot
+	Appointments []DocAppointment
 }
 
 // it should implement BusinessRepo
 type MedicalBusiness struct {
 	Name         string
-	Appointments []bookings.Appointment
-	Doctors      []bookings.Actor
-	Services     []bookings.ActorService
+	Appointments []DocAppointment
+	Doctors      []Doctor
+	Services     []DermoService
 	Db           *gorm.DB
 }
 
