@@ -3,6 +3,7 @@ package service
 import (
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
 	"github.com/SpoonBuoy/waba/usecases/medical"
+	"github.com/gin-gonic/gin"
 )
 
 type BookingService struct {
@@ -14,20 +15,24 @@ func NewBookingService(business bookings.BusinessRepo) *BookingService {
 		Ctrl: business,
 	}
 }
-func (bc *BookingService) CreateActor(req medical.CreateActorReq) {
+func (bc *BookingService) CreateActor(c *gin.Context, req medical.CreateActorReq) error {
 	//we create a doctor
 	doctor := medical.Doctor{}
 	var bid int
-	bc.Ctrl.AddActor(&doctor, bid)
+	err := bc.Ctrl.AddActor(c, &doctor, bid)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (bc *BookingService) GetActor(id int) bookings.Actor {
-	doc := bc.Ctrl.GetActor(id)
+	doc := bc.Ctrl.GetActor(c, id)
 	return doc
 }
 
 func (bc *BookingService) GetAllActors(bid int) {
-	bc.Ctrl.GetAllActors(bid)
+	bc.Ctrl.GetAllActors(c, bid)
 }
 
 func (bc *BookingService) GetAllAppointments(bid int) {

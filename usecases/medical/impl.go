@@ -4,6 +4,7 @@ import (
 	"time"
 
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
+	"github.com/gin-gonic/gin"
 )
 
 func HandleDbErr(err error) {}
@@ -57,11 +58,11 @@ func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duratio
 }
 
 // Medical Bussiness -- Business
-func (mb MedicalBusiness) AddActor(doc bookings.Actor, bid int) {
+func (mb MedicalBusiness) AddActor(c *gin.Context, doc bookings.Actor, bid int) {
 	//adds doctor
 }
 
-func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
+func (mb MedicalBusiness) GetActor(c *gin.Context, id int) bookings.Actor {
 	//gets ith doctor
 	//return mb.Doctors[i]
 	var doc Doctor
@@ -74,10 +75,10 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 }
 
 // helper func
-func docById(docs []bookings.Actor, id int) bookings.Actor {
+func docById(c *gin.Context, docs []bookings.Actor, id int) bookings.Actor {
 	return docs[0]
 }
-func (mb MedicalBusiness) GetSlots(docId int, bid int) []bookings.Slot {
+func (mb MedicalBusiness) GetSlots(c *gin.Context, docId int, bid int) []bookings.Slot {
 	var clinic MedicalBusiness
 	err := mb.Db.Where("id = ?", bid).Preload("Doctor").First(&clinic).Error
 	if err != nil {
@@ -87,7 +88,7 @@ func (mb MedicalBusiness) GetSlots(docId int, bid int) []bookings.Slot {
 	doc := docById(clinic.Doctors, docId)
 	return doc.GetSlots()
 }
-func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
+func (mb MedicalBusiness) GetAllActors(c *gin.Context, bid int) []bookings.Actor {
 	//gets all actors
 	var clinic MedicalBusiness
 	err := mb.Db.Where("id = ?", bid).Preload("Doctor").First(&clinic).Error
@@ -97,7 +98,7 @@ func (mb MedicalBusiness) GetAllActors(bid int) []bookings.Actor {
 	}
 	return clinic.Doctors
 }
-func (mb MedicalBusiness) GetAllAppointments(bid int) []bookings.Appointment {
+func (mb MedicalBusiness) GetAllAppointments(c *gin.Context, bid int) []bookings.Appointment {
 	var clinic MedicalBusiness
 	err := mb.Db.Where("id = ?", bid).Preload("DocAppointment").First(&clinic).Error
 	if err != nil {
@@ -106,7 +107,7 @@ func (mb MedicalBusiness) GetAllAppointments(bid int) []bookings.Appointment {
 	}
 	return clinic.Appointments
 }
-func (mb MedicalBusiness) GetAllServices(bid int) []bookings.ActorService {
+func (mb MedicalBusiness) GetAllServices(c *gin.Context, bid int) []bookings.ActorService {
 	var clinic MedicalBusiness
 	err := mb.Db.Where("id = ?", bid).Preload("DermoService").First(&clinic).Error
 	if err != nil {
