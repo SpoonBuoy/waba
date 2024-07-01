@@ -23,13 +23,13 @@ type DocAppointment struct {
 	Slot   DocSlot
 }
 
-// func NewDocAppointment(doc string, user string, slot bookings.Slot) bookings.Appointment {
-// 	return DocAppointment{
-// 		Doctor: doc,
-// 		User:   user,
-// 		Slot:   slot,
-// 	}
-// }
+func NewDocAppointment(doc string, user string, slot DocSlot) bookings.Appointment {
+	return DocAppointment{
+		Doctor: doc,
+		User:   user,
+		Slot:   slot,
+	}
+}
 
 // it should implement actor
 type Doctor struct {
@@ -38,6 +38,14 @@ type Doctor struct {
 	Details      string
 	Slots        []DocSlot
 	Appointments []DocAppointment
+}
+
+func NewDoc(name string, svc MedicalService, details string) Doctor {
+	return Doctor{
+		Name:    name,
+		Service: svc,
+		Details: details,
+	}
 }
 
 // it should implement BusinessRepo
@@ -49,8 +57,11 @@ type MedicalBusiness struct {
 	Db           *gorm.DB
 }
 
-func NewMedicalBusiness() MedicalBusiness {
-	return MedicalBusiness{}
+func NewMedicalBusiness(name string, db *gorm.DB) MedicalBusiness {
+	return MedicalBusiness{
+		Name: name,
+		Db:   db,
+	}
 }
 
 type DocSlot struct {

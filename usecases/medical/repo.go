@@ -5,8 +5,8 @@ import bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
 // Medical Bussiness -- Business
 func (mb MedicalBusiness) AddActor(doc bookings.Actor, bid int) {
 	//adds doctor
-	var doctor Doctor = doc.(Doctor)
 	var clinic MedicalBusiness
+	var doctor Doctor = doc.(Doctor)
 	err := mb.Db.Model(&clinic).Association("Doctor").Append(doctor)
 	if err != nil {
 		HandleDbErr(err)

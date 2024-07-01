@@ -34,8 +34,9 @@ func NewDocAppointment(doc string, user string, slot bookings.Slot) bookings.App
 		Slot:   slot,
 	}
 }
-func (da DocAppointment) Book() {
+func (da DocAppointment) Book() bookings.Appointment {
 	//books an appointment
+	return nil
 }
 
 // it should implement actor
@@ -60,11 +61,15 @@ func (d Doctor) BookSlot(slot bookings.Slot) {
 func (d Doctor) GetSlots() []bookings.Slot {
 	return d.Slots
 }
-func (d Doctor) FreeSlot() {
+func (d Doctor) RemoveExpiredSlots() {
+
+}
+func (d Doctor) FreeSlot(s bookings.Slot) {
 	//free a slot
 }
-func (d Doctor) GetService() {
+func (d Doctor) GetService() string {
 	//returns the service type
+	return ""
 }
 func (d Doctor) NextFreeSlot() bookings.Slot {
 	//gets next free slot for this doc

@@ -4,12 +4,13 @@ import (
 	"github.com/SpoonBuoy/waba/usecases/common/service"
 	"github.com/SpoonBuoy/waba/usecases/medical"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 var bc *BookingController
 
 func InitMed() {
-	medBus := medical.NewMedicalBusiness()
+	medBus := medical.NewMedicalBusiness("gasha clinic", &gorm.DB{})
 	ser := service.NewBookingService(medBus)
 	bc = NewBookingController(ser)
 }

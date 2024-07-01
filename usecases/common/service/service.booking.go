@@ -2,6 +2,8 @@ package service
 
 import (
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
+	"github.com/SpoonBuoy/waba/usecases/common/dto"
+	"github.com/SpoonBuoy/waba/usecases/factory"
 	"github.com/SpoonBuoy/waba/usecases/medical"
 )
 
@@ -14,11 +16,11 @@ func NewBookingService(business bookings.BusinessRepo) *BookingService {
 		Repo: business,
 	}
 }
-func (bc *BookingService) CreateActor(req medical.CreateActorReq) {
-	//we create a doctor
-	doctor := medical.Doctor{}
+func (bc *BookingService) CreateActor(req dto.CreateActorReq) {
+	//we create an actor
+	actor := factory.NewActor(req.Name, req.Details, req.Service, req.BusinessType)
 	var bid int
-	bc.Repo.AddActor(&doctor, bid)
+	bc.Repo.AddActor(actor, bid)
 }
 
 func (bc *BookingService) GetActor(id int) bookings.Actor {
@@ -40,7 +42,7 @@ func (bc *BookingService) GetSlots() []bookings.Slot {
 	slots := doc.GetSlots()
 	return slots
 }
-func (bc *BookingService) CreateAppointment(req medical.CreateAppointmentReq) {
+func (bc *BookingService) CreateAppointment(req dto.CreateAppointmentReq) {
 	//we have to create an appointment for some doc
 	//lets get the doc first
 	var docId int = 0

@@ -14,20 +14,23 @@ func (ds MedicalService) Type() string {
 }
 
 // DocAppointment--Appointment
-func (da DocAppointment) Book() {
-	//books an appointment
+func (da DocAppointment) Book() bookings.Appointment {
+	//create an appointment
+	appt := NewDocAppointment(da.Doctor, da.User, da.Slot)
+	return appt
 }
 
 // Doctor--Actor
 func (d Doctor) BookSlot(slot bookings.Slot) {
 	//book a slot
+}
+func (d Doctor) FreeSlot(slot bookings.Slot) {
+	//free a slot
 
 }
-func (d Doctor) FreeSlot() {
-	//free a slot
-}
-func (d Doctor) GetService() {
+func (d Doctor) GetService() string {
 	//returns the service type
+	return d.Service.Type()
 }
 func (d Doctor) NextFreeSlot() bookings.Slot {
 	//gets next free slot for this doc
@@ -35,7 +38,10 @@ func (d Doctor) NextFreeSlot() bookings.Slot {
 }
 func (d Doctor) AddAppointment(apt bookings.Appointment) {
 	//adds appointment to doc
-	d.Appointments = append(d.Appointments, apt.(DocAppointment))
+	var docApt DocAppointment = apt.(DocAppointment)
+	//apt.Book(d.Name, docApt.User, docApt.Slot)
+	docApt.Book()
+	d.Appointments = append(d.Appointments, docApt)
 }
 
 func (d Doctor) GetAllAppointments() []bookings.Appointment {
@@ -52,6 +58,15 @@ func (d Doctor) GetSlots() []bookings.Slot {
 		res = append(res, slot)
 	}
 	return res
+}
+func (d Doctor) RemoveExpiredSlots() {
+	//removes the expired slots
+	for i, s := range d.Slots {
+		if s.To.Before(time.Now()) {
+			//expired slot have to remove it
+			d.Slots = append(d.Slots[:i], d.Slots[i+1:]...)
+		}
+	}
 }
 func (d Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
 	//creates a slot factory at first time for a doc
