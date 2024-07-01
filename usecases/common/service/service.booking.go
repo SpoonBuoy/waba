@@ -26,12 +26,12 @@ func (bc *BookingService) GetActor(id int) bookings.Actor {
 	return doc
 }
 
-func (bc *BookingService) GetAllActors(bid int) {
-	bc.Repo.GetAllActors(bid)
+func (bc *BookingService) GetAllActors(bid int) []bookings.Actor {
+	return bc.Repo.GetAllActors(bid)
 }
 
-func (bc *BookingService) GetAllAppointments(bid int) {
-	bc.Repo.GetAllAppointments(bid)
+func (bc *BookingService) GetAllAppointments(bid int) []bookings.Appointment {
+	return bc.Repo.GetAllAppointments(bid)
 }
 func (bc *BookingService) GetSlots() []bookings.Slot {
 	//get the slots of doc

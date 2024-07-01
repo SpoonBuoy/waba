@@ -8,8 +8,8 @@ import (
 
 func HandleDbErr(err error) {}
 
-// DermoService--ActorService implementation
-func (ds DermoService) Type() string {
+// MedicalService--ActorService implementation
+func (ds MedicalService) Type() string {
 	return ds.Name
 }
 
@@ -35,7 +35,7 @@ func (d Doctor) NextFreeSlot() bookings.Slot {
 }
 func (d Doctor) AddAppointment(apt bookings.Appointment) {
 	//adds appointment to doc
-	d.Appointments = append(d.Appointments, apt)
+	d.Appointments = append(d.Appointments, apt.(DocAppointment))
 }
 
 func (d Doctor) GetAllAppointments() []bookings.Appointment {
@@ -53,7 +53,7 @@ func (d Doctor) GetSlots() []bookings.Slot {
 	}
 	return res
 }
-func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
+func (d Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duration) {
 	//creates a slot factory at first time for a doc
 	var slots []DocSlot
 	//while from is less than to
@@ -64,23 +64,6 @@ func (d *Doctor) SlotFactory(from time.Time, to time.Time, duration time.Duratio
 		slots = append(slots, slot)
 	}
 	d.Slots = slots
-}
-
-// Medical Bussiness -- Business
-func (mb MedicalBusiness) AddActor(doc bookings.Actor, bid int) {
-	//adds doctor
-}
-
-func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
-	//gets ith doctor
-	//return mb.Doctors[i]
-	var doc Doctor
-	err := mb.Db.Where("id = ?", id).First(&doc).Error
-	if err != nil {
-		HandleDbErr(err)
-		return nil
-	}
-	return &doc
 }
 
 func (s DocSlot) IsAvailable() bool {

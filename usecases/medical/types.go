@@ -8,12 +8,12 @@ import (
 )
 
 // should implement ActorService
-type DermoService struct {
+type MedicalService struct {
 	Name string
 }
 
-func NewDermoService(name string) bookings.ActorService {
-	return DermoService{Name: name}
+func NewMedicalService(name string) bookings.ActorService {
+	return MedicalService{Name: name}
 }
 
 // should implement appointments
@@ -34,7 +34,7 @@ type DocAppointment struct {
 // it should implement actor
 type Doctor struct {
 	Name         string
-	Service      DermoService
+	Service      MedicalService
 	Details      string
 	Slots        []DocSlot
 	Appointments []DocAppointment
@@ -45,8 +45,12 @@ type MedicalBusiness struct {
 	Name         string
 	Appointments []DocAppointment
 	Doctors      []Doctor
-	Services     []DermoService
+	Services     []MedicalService
 	Db           *gorm.DB
+}
+
+func NewMedicalBusiness() MedicalBusiness {
+	return MedicalBusiness{}
 }
 
 type DocSlot struct {
