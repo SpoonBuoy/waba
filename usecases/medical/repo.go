@@ -69,3 +69,26 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	}
 	return &doc
 }
+
+func (mb MedicalBusiness) Book(id int) error {
+	slot := mb.GetSlot(id)
+	slot.Book()
+	err := mb.Db.Save(&slot).Error
+	if err != nil {
+		HandleDbErr(err)
+		return nil
+	}
+	return nil
+}
+
+func (mb MedicalBusiness) GetSlot(id int) bookings.Slot {
+	return nil
+}
+
+func (mb MedicalBusiness) GetAllSlots(int) []bookings.Slot {
+	return nil
+}
+
+func (mb MedicalBusiness) GetService(int) bookings.ActorService {
+	return nil
+}

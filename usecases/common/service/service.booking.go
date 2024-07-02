@@ -37,19 +37,19 @@ func (bc *BookingService) GetAllAppointments(bid int) []bookings.Appointment {
 }
 func (bc *BookingService) GetSlots() []bookings.Slot {
 	//get the slots of doc
-	var docId int
-	doc := bc.Repo.GetActor(docId)
-	slots := doc.GetSlots()
-	return slots
+	// var docId int
+	// doc := bc.Repo.GetActor(docId)
+	// slots := doc.GetSlots("", "")
+	// return slots
+	return nil
 }
 func (bc *BookingService) CreateAppointment(req dto.CreateAppointmentReq) {
 	//we have to create an appointment for some doc
 	//lets get the doc first
-	var docId int = 0
-	doc := bc.Repo.GetActor(docId)
-	//now lets create a slot from dto
-	slot := medical.DocSlot{}
-	doc.BookSlot(&slot)
+	// var docId int = 0
+	// doc := bc.Repo.GetActor(docId)
+	// //now lets create a slot from dto
+	// slot := medical.DocSlot{}
 }
 
 func (bc *BookingService) CreateBusinessService(req medical.CreateBusinessReq) {
