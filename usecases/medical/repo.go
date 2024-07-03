@@ -70,25 +70,35 @@ func (mb MedicalBusiness) GetActor(id int) bookings.Actor {
 	return &doc
 }
 
-func (mb MedicalBusiness) Book(id int) error {
+func (mb MedicalBusiness) BookSlot(id int) {
 	slot := mb.GetSlot(id)
 	slot.Book()
 	err := mb.Db.Save(&slot).Error
 	if err != nil {
 		HandleDbErr(err)
-		return nil
 	}
-	return nil
 }
 
 func (mb MedicalBusiness) GetSlot(id int) bookings.Slot {
-	return nil
+	var slot DocSlot
+	err := mb.Db.Where("id = ?", id).First(&slot).Error
+	if err != nil {
+		HandleDbErr(err)
+	}
+	return slot
 }
 
 func (mb MedicalBusiness) GetAllSlots(int) []bookings.Slot {
+	// var slots []DocSlot
+	// err := mb.Db.Where("business")
 	return nil
 }
 
-func (mb MedicalBusiness) GetService(int) bookings.ActorService {
-	return nil
+func (mb MedicalBusiness) GetService(id int) bookings.ActorService {
+	var svc MedicalService
+	err := mb.Db.Where("id = ?", id).First(&svc).Error
+	if err != nil {
+		HandleDbErr(err)
+	}
+	return svc
 }

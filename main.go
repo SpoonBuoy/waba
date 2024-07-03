@@ -9,7 +9,7 @@ import (
 	"github.com/SpoonBuoy/waba/middleware"
 	"github.com/SpoonBuoy/waba/repository"
 	"github.com/SpoonBuoy/waba/service"
-	"github.com/SpoonBuoy/waba/usecases/common/controller"
+	"github.com/SpoonBuoy/waba/usecases/router"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -107,7 +107,7 @@ func main() {
 		waba.POST("/event", chatController.Listen)
 
 		med := api.Group("/med")
-		controller.MedicalRouter(med)
+		router.MedicalRouter(med)
 
 	}
 	r.Run(":9000")

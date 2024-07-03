@@ -8,7 +8,8 @@ type BusinessRepo interface {
 	GetAllAppointments(int) []Appointment
 	GetAllServices(int) []ActorService
 	AddService(ActorService, int)
+	GetService(int) ActorService
 	GetAllSlots(int) []Slot
 	GetSlot(int) Slot
-	GetService(int) ActorService
+	BookSlot(int)
 }

@@ -4,7 +4,6 @@ import (
 	bookings "github.com/SpoonBuoy/waba/bookings/interfaces"
 	"github.com/SpoonBuoy/waba/usecases/common/dto"
 	"github.com/SpoonBuoy/waba/usecases/factory"
-	"github.com/SpoonBuoy/waba/usecases/medical"
 )
 
 type BookingService struct {
@@ -51,11 +50,18 @@ func (bc *BookingService) CreateAppointment(req dto.CreateAppointmentReq) {
 	// //now lets create a slot from dto
 	// slot := medical.DocSlot{}
 }
-
-func (bc *BookingService) CreateBusinessService(req medical.CreateBusinessReq) {
+func (bc *BookingService) BookSlot(req dto.BookSlotReq) {
+	bc.Repo.BookSlot(req.SlotId)
 
 }
+func (bc *BookingService) CreateBusinessService(req dto.CreateServiceReq) {
+	// have to be auth
+	var bid int
+	service := factory.NewService(req.Name, req.BusinessType)
+	bc.Repo.AddService(service, bid)
+}
 
-func (bc *BookingService) GetAllBusinessServices() {
-
+func (bc *BookingService) GetAllBusinessServices() []bookings.ActorService {
+	var bid int
+	return bc.Repo.GetAllServices(bid)
 }

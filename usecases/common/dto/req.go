@@ -8,5 +8,13 @@ type CreateActorReq struct {
 	Service      string
 	BusinessType factory.BusinessType
 }
+type BookSlotReq struct {
+	SlotId       int
+	BusinessType factory.BusinessType
+}
+type CreateServiceReq struct {
+	Name         string
+	BusinessType factory.BusinessType
+}
 type CreateAppointmentReq struct{}
 type CreateBusinessReq struct{}
